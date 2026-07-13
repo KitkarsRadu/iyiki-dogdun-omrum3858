@@ -23,9 +23,112 @@
             overflow-y: hidden; 
             user-select: none;
             scroll-behavior: smooth;
+            transition: background-color 1s ease, color 1s ease;
         }
 
-        /* Romantik Kalp Yağmuru */
+        /* AYDINLIK DUYGU MODU GEÇİŞLERİ */
+        body.light-emotion-mode {
+            background-color: #fdf2f8 !important;
+            color: #1f1d24 !important;
+        }
+        body.light-emotion-mode .reveal-box {
+            background: rgba(255, 255, 255, 0.92) !important;
+            border: 1px solid rgba(244, 114, 182, 0.2) !important;
+            box-shadow: 0 30px 60px rgba(244, 114, 182, 0.15) !important;
+        }
+        body.light-emotion-mode .poem-text {
+            color: #374151 !important;
+        }
+        body.light-emotion-mode .counter-value {
+            background: linear-gradient(45deg, #db2777, #4f46e5) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+        body.light-emotion-mode .envelope {
+            background: #fff0f6;
+            border: 1px solid rgba(244, 114, 182, 0.3);
+        }
+        body.light-emotion-mode .letter-content {
+            background: rgba(255, 255, 255, 0.99) !important;
+            color: #1f1d24 !important;
+            border: 1px solid rgba(244, 114, 182, 0.4) !important;
+        }
+        body.light-emotion-mode .shake-modal {
+            background: rgba(253, 242, 248, 0.98) !important;
+        }
+
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            z-index: 99999;
+            animation: clickHeartAnim 0.8s ease-out forwards;
+        }
+        @keyframes clickHeartAnim {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -120px) scale(1.4) rotate(15deg); opacity: 0; }
+        }
+
+        .emotion-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: rgba(14, 12, 18, 0.6);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        body.light-emotion-mode .emotion-toggle-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(244, 114, 182, 0.5);
+        }
+
+        /* GÖRSEL SÜRPRİZ MODALI (KATMAN EN ÜSTE AYARLANDI) */
+        .shake-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 4, 6, 0.97);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.6s ease;
+            padding: 20px;
+        }
+        .shake-modal.active {
+            opacity: 1; pointer-events: auto;
+        }
+        
+        .shake-photo-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 55vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(244, 114, 182, 0.5);
+            border: 3px solid #fff;
+            transform: scale(0.8);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+        }
+        .shake-modal.active .shake-photo-wrapper {
+            transform: scale(1);
+        }
+        .shake-photo-wrapper img {
+            width: 100%; height: 100%; object-fit: contain; display: block;
+        }
+
         .sparkle-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -47,7 +150,6 @@
             100% { transform: translateY(-5vh) translateX(-15px) scale(1.3); opacity: 0; }
         }
 
-        /* Süslü Şeritler */
         .romantic-ribbon {
             position: absolute;
             width: 150%;
@@ -58,7 +160,6 @@
             pointer-events: none;
         }
 
-        /* Geçiş mesafeleri eşit ve kısa tutuldu */
         .scroll-section {
             position: relative;
             min-height: 100vh;
@@ -70,7 +171,6 @@
             z-index: 3;
         }
 
-        /* Aşağı Kaydırma Yönlendirme Oku */
         .scroll-down-arrow {
             position: absolute;
             bottom: -25px; 
@@ -130,7 +230,6 @@
             word-break: normal;
         }
 
-        /* GÜNCELLENDİ: TAŞMAYI ÖSLEYEN AKILLI MOBİL SAYAÇ TASARIMI */
         .counter-container {
             margin: 20px auto;
             padding: 15px 10px;
@@ -138,7 +237,7 @@
             border-radius: 16px;
             border: 1px solid rgba(244, 114, 182, 0.08);
             width: 100%;
-            max-width: 420px; /* Telefon ekranları için ideal maksimum genişlik */
+            max-width: 420px; 
         }
         .counter-title {
             font-size: 0.9rem;
@@ -149,19 +248,19 @@
         }
         .counter-grid {
             display: flex;
-            justify-content: space-between; /* Kutuları eşit şekilde dağıtır */
+            justify-content: space-between; 
             align-items: center;
-            gap: 4px; /* Mobilde taşmayı önlemek için araları daraltıldı */
+            gap: 4px; 
         }
         .counter-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex: 1; /* Her kutunun ekrana göre esnemesini sağlar */
-            min-width: 0; /* İçeriğin kutuyu zorla büyütmesini engeller */
+            flex: 1; 
+            min-width: 0; 
         }
         .counter-value {
-            font-size: 1.35rem; /* Ekranlarda taşmaması için hafifçe optimize edildi */
+            font-size: 1.35rem; 
             font-weight: bold;
             color: #ffffff;
             font-family: monospace;
@@ -192,7 +291,6 @@
         }
         .audio-btn:hover { transform: scale(1.05); }
 
-        /* Akıllı Video Çerçevesi */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -223,7 +321,6 @@
         }
         .video-wrapper.paused .play-overlay { transform: translate(-50%, -50%) scale(1); }
 
-        /* Mektup ve Zarf Sistemi */
         .envelope-wrapper {
             margin-top: 20px;
             perspective: 1000px;
@@ -307,6 +404,7 @@
 
         .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); z-index: 2; transition: transform 0.5s ease; }
         .envelope-wrapper.open .seal-heart { transform: scale(0); opacity: 0; transition: all 0.3s ease; }
+        
         .envelope-wrapper.open .letter-content {
             opacity: 1;
             width: 90vw;
@@ -315,9 +413,13 @@
             left: 50%; top: 50%;
             transform: translate(-50%, -50%) scale(1);
             position: fixed;
-            z-index: 99;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 3000px rgba(5,4,6,0.85); 
+            z-index: 9999; /* Yazıların önünde olması için sabitlendi */
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 3000px rgba(5,4,6,0.92);
             padding: 35px 25px;
+        }
+        /* Aydınlık modda arkadaki dev perdenin de yumuşak bir toz pembe/beyaz karartmaya dönüşmesini sağlar */
+        body.light-emotion-mode .envelope-wrapper.open .letter-content {
+            box-shadow: 0 30px 80px rgba(244, 114, 182, 0.2), 0 0 0 3000px rgba(253, 242, 248, 0.95) !important;
         }
         .letter-close-btn {
             display: none;
@@ -333,9 +435,25 @@
             background: rgba(244, 114, 182, 0.05);
         }
         .envelope-wrapper.open .letter-close-btn { display: block; }
+
+        .hidden-text-group {
+            opacity: 0 !important;
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body>
+
+    <button class="emotion-toggle-btn" id="emotionToggle" title="Duygu Işığı">💡</button>
+
+    <!-- SALLAYINCA AÇILAN ALAN -->
+    <div class="shake-modal" id="shakeModal">
+        <div style="color: #f472b6; font-size: 1.4rem; margin-bottom: 15px; font-style: italic; text-align: center; font-weight: bold; text-shadow: 0 0 10px rgba(244,114,182,0.5);">💖 Kalbimin En Güzel Köşesi... 💖</div>
+        <div class="shake-photo-wrapper" id="photoContainer">
+            <img src="foto1.jpg" onerror="this.onerror=null; this.src='foto1.png'; this.onerror=function(){this.src='foto1.jpeg';};" alt="Sürpriz Anı">
+        </div>
+        <button class="audio-btn" id="closeShakeModal" style="margin-top: 25px; position: relative; z-index: 200005;">Kapat ve Devam Et ❤️</button>
+    </div>
 
     <div class="sparkle-container" id="sparkles"></div>
 
@@ -362,12 +480,12 @@
                 </div>
             </div>
 
-            <button class="audio-btn" id="startBtn">Sürprizi Başlat ❤️</button>
+            <button class="audio-btn" id="startBtn">❤️ Anılarımıza Dokun ❤️ </button>
         </div>
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 1. VİDEO BÖLÜMÜ (video1) -->
+    <!-- VİDEO SEKSİYONLARI (1-11) -->
     <section class="scroll-section" id="first-video-section">
         <div class="reveal-box">
             <h2 class="poem-title">Bir Mucizenin Varlığı</h2>
@@ -382,11 +500,10 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 2. VİDEO BÖLÜMÜ (video10) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Ruhumu İyileştiren Sığınak</h2>
-            <p class="poem-text">Dünyanın tüm yükünü omuzlarımdan alan, attığım her adımda hayatımı güzelleştiren ve yüzüme tebessüm olan tek varlıksın. Sen benim en huzurlu limanım, en berrak gökyüzümsün.</p>
+            <p class="poem-text">Dünyanın tüm yükünü omuzlarımdan alan, attığım her adımda hayatımı güzelleştiren og yüzüme tebessüm olan tek varlıksın. Sen benim en huzurlu limanım, en berrak gökyüzümsün.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -397,7 +514,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 3. VİDEO BÖLÜMÜ (video6) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Gözlerinde Kaybolduğum Evren</h2>
@@ -412,7 +528,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 4. VİDEO BÖLÜMÜ (video8) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Gönlümün Tatlı Yangını</h2>
@@ -427,11 +542,10 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 5. VİDEO BÖLÜMÜ (video2) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Zamanın Ötesinde</h2>
-            <p class="poem-text">Seni düşünmekle başlıyor benim günüm ve seninle bitiyor. Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor. Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.</p>
+            <p class="poem-text">Seni thinkmekle başlıyor benim günüm ve seninle bitiyor. Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor. Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -442,7 +556,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 6. VİDEO BÖLÜMÜ (video5) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Çiçeklerin Kıskandığı Zarafet</h2>
@@ -457,7 +570,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 7. VİDEO BÖLÜMÜ (video4) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Yol Arkadaşım</h2>
@@ -472,7 +584,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 8. VİDEO BÖLÜMÜ (video11) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Kaderimin En Güzel Cevabı</h2>
@@ -487,7 +598,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 9. VİDEO BÖLÜMÜ (video3) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Ebedi Duam</h2>
@@ -502,7 +612,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 10. VİDEO BÖLÜMÜ (video7) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Mezara Kadar, Sonsuza Kadar</h2>
@@ -517,7 +626,6 @@
         <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 11. VİDEO BÖLÜMÜ (video9) -->
     <section class="scroll-section" id="final-video-section">
         <div class="reveal-box">
             <h2 class="poem-title">İyi Ki Doğdun Sevgilim, İyi Ki Eşim Oldun!</h2>
@@ -539,14 +647,14 @@
             
             <div class="envelope-wrapper" id="envelopeWrapper">
                 <div class="envelope">
-                    <div class="seal-heart">❤️</div>
+                    <div class="seal-heart" id="pcTriggerSeal">❤️</div>
                     
                     <div class="letter-content">
                         <span class="letter-title">🌹 Ömrüme Ömür Katan Güzel Eşime...</span>
                         
                         Zamanın nasıl geçtiğini anlamadığım, her saniyesine şükrettiğim en güzel yolculuğumsun sen. Hayatın tüm koşturmacası, gürültüsü ve yorgunluğu arasında, başımı göğsüne yasladığımda bulduğum o sonsuz huzursun. Bugün, senin bu dünyaya gözlerini açtığın o mucizevi gün; yani benim dünyamın, kaderimin ve kalbimin aydınlandığı gün...
 
-                        Seni sevmek, sadece hayatı birisiyle paylaşmak değilmiş meğer. Seni sevmek; yağan yağmurda seninle ıslanmak, en sade anlarda bile dünyanın en zengin insanı gibi hissettirmek ve her sabaha senin yüzünle uyanacağını bilmenin verdiği o tarifsiz güvenmiş. Benim üzerimdeki emeğini, hayatıma kattığın zarafeti ve o hiç eksilmeyen sevgini kelimelerle anlatmaya gücüm yetmez. Sen benim bu hayattaki en doğru kararım, en güzel tesadüfüm ve kalbime verilmiş en büyük ödülsün.
+                        Seni sevmek, sadece hayatı birisiyle paylaşmak değilmiş meğer. Seni sevmek; yağan yağmurda seninle ıslanmak, en sade anlarda bile dünyanın en zengin insanı gibi hissettirmek ve her sabaha senin yüzünle uyanacağını bilmenin verdiği o tarifsiz güvenmiş. Benim üzerimdeki emeğini, hayatıma kattığın zarafeti ve o hiç eksilmeyen sevgini kelimelerle anlatmaya gücüm yetmez. Sen benim bu hayattaki en doğru kararım, en güzel tesadüfüm og kalbime verilmiş en büyük ödülsün.
 
                         İyi ki doğdun sevgilim, iyi ki yollarımız birleşti ve iyi ki benim eşim oldun. Yeni yaşında yüzündeki o büyüleyici gülüş hiç eksilmesin. Kalbinden geçen tüm dualar, ömrümüz boyunca diz dize, göz göze gerçeğe dönüşsün. Bu dünyada seninle yaşlanmak, ahirette de seninle yeniden uyanmak en büyük duamdır. Doğum günün kutlu olsun kalbimin sultanı, seni her şeyden çok seviyorum...
 
@@ -567,15 +675,39 @@
                         Mezara kadar sürsün bu kutsal bağımız,
                         İyi ki doğdun eşim, kutlu olsun yaşımız... 🥂🎉
                         
-                        <div class="letter-close-btn">Mektubu Kapat ❤️</div>
+                        <div class="letter-close-btn" id="letterCloseBtn">Mektubu Kapat ❤️</div>
                     </div>
                 </div>
             </div>
-            <div style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Kalbinin sesini dinle ve kalbime dokun... ❤️</div>
+            <div id="hintText1" style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Kalbinin sesini dinle ve kalbime dokun... ❤️</div>
+            <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8;">📱 Telefonu salla (veya PC'de bir tuşa bas) mucizeyi gör! ✨</div>
         </div>
     </section>
 
     <script>
+        // EKRANA DOKUNUNCA KALP PATLAMA SİSTEMİ
+        document.addEventListener('click', function(e) {
+            if(e.target.closest('.audio-btn') || e.target.closest('video') || e.target.closest('.emotion-toggle-btn')) return;
+            for(let i=0; i<3; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'click-heart';
+                heart.innerText = '❤️';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                let randomX = (Math.random() - 0.5) * 40;
+                heart.style.transform = `translate(calc(-50% + ${randomX}px), -50%)`;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 800);
+            }
+        });
+
+        // AYDINLIK / KARANLIK DUYGU MODU KONTROLÜ
+        const emotionToggle = document.getElementById('emotionToggle');
+        emotionToggle.addEventListener('click', function() {
+            document.body.classList.toggle('light-emotion-mode');
+            this.innerText = document.body.classList.contains('light-emotion-mode') ? '🌙' : '💡';
+        });
+
         // Romantik Kalp Yağmuru
         const sparkleContainer = document.getElementById('sparkles');
         for (let i = 0; i < 35; i++) {
@@ -623,21 +755,18 @@
             document.body.style.overflowY = 'auto';
             this.style.display = 'none';
             document.getElementById('first-video-section').scrollIntoView({ behavior: 'smooth' });
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                DeviceMotionEvent.requestPermission().catch(err => console.log(err));
+            }
         });
 
         // Akıllı Kaydırma Gözlemcisi
-        const observerOptions = {
-            root: null,
-            rootMargin: '-10% 0px -10% 0px',
-            threshold: 0.5 
-        };
-
+        const observerOptions = { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.5 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const box = entry.target;
                 const wrapper = box.querySelector('.video-wrapper');
                 const video = box.querySelector('video');
-                
                 if (entry.isIntersecting) {
                     box.classList.add('active');
                     if (video) {
@@ -647,31 +776,23 @@
                         if (playPromise !== undefined) {
                             playPromise.then(() => {
                                 if (isAudioUnlocked) video.muted = false;
-                                if (box.parentNode.id === 'final-video-section') {
-                                    triggerVideoConfetti();
-                                }
+                                if (box.parentNode.id === 'final-video-section') triggerVideoConfetti();
                             }).catch(err => console.log(err));
                         }
                     }
                 } else {
                     box.classList.remove('active');
                     if (video) {
-                        video.pause();
-                        video.muted = true;
+                        video.pause(); video.muted = true;
                         if (wrapper) wrapper.classList.remove('paused');
                     }
-                    if (box.parentNode.id === 'final-video-section') {
-                        clearInterval(confettiInterval);
-                    }
+                    if (box.parentNode.id === 'final-video-section') clearInterval(confettiInterval);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal-box').forEach(box => {
-            observer.observe(box);
-        });
+        document.querySelectorAll('.reveal-box').forEach(box => observer.observe(box));
 
-        // Son video sayfası arka plan konfeti akışı
         function triggerVideoConfetti() {
             clearInterval(confettiInterval);
             confetti({ particleCount: 60, spread: 70, origin: { y: 0.75 }, colors: ['#f472b6', '#ffd700'] });
@@ -681,66 +802,132 @@
             }, 350);
         }
 
-        // Tıklayınca Video Durdurma
         document.querySelectorAll('.video-wrapper').forEach(wrapper => {
             const video = wrapper.querySelector('video');
-            wrapper.addEventListener('click', function(e) {
+            wrapper.addEventListener('click', function() {
                 if (!isAudioUnlocked) return; 
-                if (video.paused) {
-                    video.play();
-                    wrapper.classList.remove('paused');
-                } else {
-                    video.pause();
-                    wrapper.classList.add('paused');
-                }
+                if (video.paused) { video.play(); wrapper.classList.remove('paused'); }
+                else { video.pause(); wrapper.classList.add('paused'); }
             });
         });
 
-        // MEKTUP AÇILDIĞINDA MAKSİMUM SEVİYEDE YOĞUN KONFETİ PATLAMASI
+        // MEKTUP KONTROLÜ
         const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const hintText1 = document.getElementById('hintText1');
+        const hintText2 = document.getElementById('hintText2');
+
         envelopeWrapper.addEventListener('click', function(e) {
             if (!isAudioUnlocked) return;
-            if (e.target.closest('.letter-content') && !e.target.classList.contains('letter-close-btn')) return;
+            if (e.target.closest('.letter-content') && e.target.id !== 'letterCloseBtn') return;
 
             this.classList.toggle('open');
 
             if (this.classList.contains('open')) {
-                // 1. Ekranın tam ortasından devasa patlama (250 Adet!)
-                confetti({
-                    particleCount: 250,
-                    spread: 100,
-                    origin: { y: 0.5 },
-                    colors: ['#f472b6', '#db2777', '#ffd700', '#ffffff', '#6366f1']
-                });
-
-                // 2. Sol alt köşeden yukarı çapraza fırlatma
-                confetti({
-                    particleCount: 80,
-                    angle: 60,
-                    spread: 70,
-                    origin: { x: 0, y: 0.9 },
-                    colors: ['#ffd700', '#db2777']
-                });
-
-                // 3. Sağ alt köşeden yukarı çapraza fırlatma
-                confetti({
-                    particleCount: 80,
-                    angle: 120,
-                    spread: 70,
-                    origin: { x: 1, y: 0.9 },
-                    colors: ['#ffd700', '#f472b6']
-                });
-
-                // 4. Kısa bir süre sonra (200ms) tepeden aşağı dökülen sürpriz bonus yağmur
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 100,
-                        spread: 120,
-                        origin: { y: 0.2 },
-                        colors: ['#fbcfe8', '#ffd700', '#ffffff']
-                    });
-                }, 200);
+                hintText1.classList.add('hidden-text-group');
+                hintText2.classList.add('hidden-text-group');
+                
+                // Mektup konfetileri zorla en üst zIndex ile tetiklenir
+                confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 }, colors: ['#f472b6', '#db2777', '#ffd700', '#ffffff', '#6366f1'], zIndex: 300000 });
+                confetti({ particleCount: 80, angle: 60, spread: 70, origin: { x: 0, y: 0.9 }, colors: ['#ffd700', '#db2777'], zIndex: 300000 });
+                confetti({ particleCount: 80, angle: 120, spread: 70, origin: { x: 1, y: 0.9 }, colors: ['#ffd700', '#f472b6'], zIndex: 300000 });
+                setTimeout(() => { confetti({ particleCount: 100, spread: 120, origin: { y: 0.2 }, colors: ['#fbcfe8', '#ffd700', '#ffffff'], zIndex: 300000 }); }, 200);
+            } else {
+                hintText1.classList.remove('hidden-text-group');
+                hintText2.classList.remove('hidden-text-group');
             }
+        });
+
+        // SALLAMA VE GÜVENLİ ÖN PLAN KONFETİ SİSTEMİ
+        let lastX = null, lastY = null, lastZ = null;
+        let shakeThreshold = 18; 
+        let isShakeTriggered = false;
+        const shakeModal = document.getElementById('shakeModal');
+
+        function triggerSuperShakeSürpriz() {
+            if (isShakeTriggered || !isAudioUnlocked || envelopeWrapper.classList.contains('open')) return;
+            isShakeTriggered = true;
+            
+            shakeModal.classList.add('active');
+
+            // FOTOĞRAFIN TAM ÜZERİNE ÇİZİM YAPACAK ÖZEL SİHİRLİ CANVAS ALANI OLUŞTURULUYOR
+            let modalCanvas = document.createElement('canvas');
+            modalCanvas.id = 'modalConfettiCanvas';
+            modalCanvas.style.position = 'fixed';
+            modalCanvas.style.top = '0';
+            modalCanvas.style.left = '0';
+            modalCanvas.style.width = '100vw';
+            modalCanvas.style.height = '100vh';
+            modalCanvas.style.pointerEvents = 'none';
+            modalCanvas.style.zIndex = '200000'; // Fotoğrafın (100000) tam önü
+            document.body.appendChild(modalCanvas);
+
+            // Konfeti motorunu bu yeni en üst katmana bağlıyoruz
+            let myConfetti = confetti.create(modalCanvas, { resize: true, useWorker: true });
+
+            let duration = 3500; 
+            let end = Date.now() + duration;
+
+            (function frame() {
+                myConfetti({ 
+                    particleCount: 6, angle: 60, spread: 65, 
+                    origin: { x: 0, y: 0.6 }, 
+                    colors: ['#ffd700', '#ffffff', '#6366f1']
+                });
+                myConfetti({ 
+                    particleCount: 6, angle: 120, spread: 65, 
+                    origin: { x: 1, y: 0.6 }, 
+                    colors: ['#ffd700', '#ffffff', '#6366f1']
+                });
+
+                myConfetti({
+                    particleCount: 12,
+                    spread: 100,
+                    startVelocity: 30,
+                    origin: { x: Math.random() * 0.8 + 0.1, y: Math.random() * 0.4 + 0.3 }, 
+                    shapes: ['emoji'],
+                    shapeOptions: {
+                        emoji: {
+                            value: Math.random() > 0.5 ? '❤️' : '💖'
+                        }
+                    },
+                    scalar: Math.random() * 0.4 + 0.5
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        window.addEventListener('devicemotion', function(event) {
+            let acceleration = event.accelerationIncludingGravity;
+            if(!acceleration) return;
+            let currentX = acceleration.x, currentY = acceleration.y, currentZ = acceleration.z;
+            if (lastX !== null) {
+                let deltaX = Math.abs(currentX - lastX), deltaY = Math.abs(currentY - lastY), deltaZ = Math.abs(currentZ - lastZ);
+                if ((deltaX > shakeThreshold && deltaY > shakeThreshold) || (deltaX > shakeThreshold && deltaZ > shakeThreshold)) {
+                    triggerSuperShakeSürpriz();
+                }
+            }
+            lastX = currentX; lastY = currentY; lastZ = currentZ;
+        });
+
+        window.addEventListener('keydown', function() { triggerSuperShakeSürpriz(); });
+        
+        document.getElementById('pcTriggerSeal').addEventListener('click', function(e) {
+            if (!envelopeWrapper.classList.contains('open')) {
+                e.stopPropagation(); triggerSuperShakeSürpriz();
+            }
+        });
+
+        // Kapatma butonu dinleyicisi temizlendi ve özel konfeti canvas'ını sıfırlayacak şekilde güncellendi
+        document.getElementById('closeShakeModal').addEventListener('click', function(e) {
+            e.stopPropagation();
+            shakeModal.classList.remove('active');
+            // Fotoğrafın üzerindeki ekstra konfeti canvas alanını temizle
+            const oldCanvas = document.getElementById('modalConfettiCanvas');
+            if(oldCanvas) oldCanvas.remove();
+            setTimeout(() => { isShakeTriggered = false; }, 1000);
         });
     </script>
 </body>
