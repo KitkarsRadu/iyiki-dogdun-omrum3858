@@ -96,16 +96,19 @@
             font-style: italic;
             font-weight: bold;
         }
+        
+        /* Kelime kaymasını önleyen güncellenmiş yazı stili */
         .poem-text {
             font-size: 1.05rem;
             color: #e5e7eb;
             line-height: 1.7;
             margin-bottom: 20px;
             font-style: italic;
-            white-space: pre-line;
+            word-wrap: break-word;
+            word-break: normal;
+            padding: 0 5px;
         }
 
-        /* Sürpriz Başlatma Butonu */
         .audio-btn {
             background: linear-gradient(45deg, #db2777, #6366f1);
             color: white;
@@ -125,20 +128,19 @@
             transform: scale(1.05);
         }
 
-        /* GÜNCELLENEN AKILLI VİDEO ÇERÇEVESİ (Boşlukları Yok Eden Esnek Yapı) */
+        /* Akıllı Video Çerçevesi */
         .video-wrapper {
             position: relative;
             width: 100%;
-            max-width: 380px; /* Genişlik sınırı korundu */
+            max-width: 380px; 
             margin: 0 auto;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            background: transparent; /* Siyah zemin transparan yapıldı */
+            background: transparent; 
             cursor: pointer;
         }
         
-        /* Video artık boyutu neyse çerçeveyi ona göre esnetiyor */
         video {
             width: 100%;
             height: auto; 
@@ -146,7 +148,7 @@
             object-fit: contain;
         }
 
-        /* Video Durdurulduğunda Ortada Çıkan Romantik Kalp/Oynat İkonu */
+        /* Video Durdurulduğunda Ortada Çıkan Romantik Kalp İkonu */
         .play-overlay {
             position: absolute;
             top: 50%;
@@ -190,13 +192,7 @@
     <section class="scroll-section">
         <div class="reveal-box active">
             <h1 class="poem-title">Ömrümün En Güzel Hikayesine...</h1>
-            <p class="poem-text">
-                Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi.
-                Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün.
-                Her satırda, her karede seni ne kadar çok sevdiğimi bir kez daha hissetmeni istedim.
-                
-                Müziği aç ve bu güzel yolculuğa başla sevgilim...
-            </p>
+            <p class="poem-text">Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi. Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün. Her satırda, her karede seni ne kadar çok sevdiğimi bir kez daha hissetmeni istedim. Sesini aç ve bu güzel yolculuğa başla sevgilim...</p>
             <button class="audio-btn" id="startBtn">Sürprizi Başlat ❤️</button>
             <div class="hint" id="scrollHint">↓ Şimdi Yavaşça Aşağı Kaydır ↓</div>
         </div>
@@ -206,11 +202,7 @@
     <section class="scroll-section" id="first-video-section">
         <div class="reveal-box">
             <h2 class="poem-title">Bir Mucizenin Varlığı</h2>
-            <p class="poem-text">
-                Gökyüzünün yeryüzüne sunduğu en zarif armağansın sen.
-                Bazen hayat yorar ya insanı, sonra bir gülüşün düşer kalbime, 
-                Tüm dertler silinir gider. Şükrüm, neşem, geleceğim...
-            </p>
+            <p class="poem-text">Gökyüzünün yeryüzüne sunduğu en zarif armağansın sen. Bazen hayat yorar ya insanı, sonra bir gülüşün düşer kalbime, tüm dertler silinir gider. Şükrüm, neşem, geleceğim...</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -220,15 +212,25 @@
         </div>
     </section>
 
-    <!-- 2. VİDEO BÖLÜMÜ (video6) -->
+    <!-- 2. VİDEO BÖLÜMÜ (video10) -->
+    <section class="scroll-section">
+        <div class="reveal-box">
+            <h2 class="poem-title">Ruhumu İyileştiren Sığınak</h2>
+            <p class="poem-text">Dünyanın tüm yükünü omuzlarımdan alan, attığım her adımda hayatımı güzelleştiren ve yüzüme tebessüm olan tek varlıksın. Sen benim en huzurlu limanım, en berrak gökyüzümsün.</p>
+            <div class="video-wrapper">
+                <div class="play-overlay">❤️</div>
+                <video preload="auto" playsinline webkit-playsinline loop muted>
+                    <source src="video10.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. VİDEO BÖLÜMÜ (video6) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Gözlerinde Kaybolduğum Evren</h2>
-            <p class="poem-text">
-                Kelimenin bittiği, şiirin başladığı yerdir gözlerin.
-                Oraya her baktığımda kendimi dünyanın en şanslı insanı olarak buluyorum.
-                Sonsuza dek sadece o derinlikte kalmak ister gibi...
-            </p>
+            <p class="poem-text">Kelimenin bittiği, şiirin başladığı yerdir gözlerin. Oraya her baktığımda kendimi dünyanın en şanslı insanı olarak buluyorum. Sonsuza dek sadece o derinlikte kalmak ister gibi...</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -238,15 +240,11 @@
         </div>
     </section>
 
-    <!-- 3. VİDEO BÖLÜMÜ (video8) -->
+    <!-- 4. VİDEO BÖLÜMÜ (video8) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Gönlümün Tatlı Yangını</h2>
-            <p class="poem-text">
-                Bir insanı sevmek, onun sıcaklığıyla erimekmiş meğer.
-                Seninle yanan bu yürek hiçbir kışta üşümez artık.
-                Aşkın en harlı, en güzel, en kor hali sensin içimde.
-            </p>
+            <p class="poem-text">Bir insanı sevmek, onun sıcaklığıyla erimekmiş meğer. Seninle yanan bu yürek hiçbir kışta üşümez artık. Aşkın en harlı, en güzel, en kor hali sensin içimde.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -256,15 +254,11 @@
         </div>
     </section>
 
-    <!-- 4. VİDEO BÖLÜMÜ (video2) -->
+    <!-- 5. VİDEO BÖLÜMÜ (video2) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Zamanın Ötesinde</h2>
-            <p class="poem-text">
-                Seni düşünmekle başlıyor benim günüm ve seninle bitiyor.
-                Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor.
-                Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.
-            </p>
+            <p class="poem-text">Seni düşünmekle başlıyor benim günüm ve seninle bitiyor. Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor. Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -274,15 +268,11 @@
         </div>
     </section>
 
-    <!-- 5. VİDEO BÖLÜMÜ (video5) -->
+    <!-- 6. VİDEO BÖLÜMÜ (video5) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Çiçeklerin Kıskandığı Zarafet</h2>
-            <p class="poem-text">
-                Gizli bir melodi gibisin, ruhuma fısıldanan en güzel ezgi.
-                Adımlarının değdiği yerde çiçekler açar,
-                Sesinin değdiği kalpte bayramlar başlar. Sen benim en özel masalımsın.
-            </p>
+            <p class="poem-text">Gizli bir melodi gibisin, ruhuma fısıldanan en güzel ezgi. Adımlarının değdiği yerde çiçekler açar, sesinin değdiği kalpte bayramlar başlar. Sen benim en özel masalımsın.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -292,15 +282,11 @@
         </div>
     </section>
 
-    <!-- 6. VİDEO BÖLÜMÜ (video4) -->
+    <!-- 7. VİDEO BÖLÜMÜ (video4) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Yol Arkadaşım</h2>
-            <p class="poem-text">
-                Hayat yolunda elini tutarak yürümekten daha büyük bir gurur yok bana.
-                Yanımda durduğun, bana sadece bakışlarınla bile dünyaları verdiğin için
-                Ruhumun derinliklerinden binlerce kez teşekkür ederim eşime...
-            </p>
+            <p class="poem-text">Hayat yolunda elini tutarak yürümekten daha büyük bir gurur yok bana. Yanımda durduğun, bana sadece bakışlarınla bile dünyaları verdiğin için ruhumun derinliklerinden binlerce kez teşekkür ederim eşime...</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -310,15 +296,25 @@
         </div>
     </section>
 
-    <!-- 7. VİDEO BÖLÜMÜ (video3) -->
+    <!-- 8. VİDEO BÖLÜMÜ (video11 - Güncellenen Kısım) -->
+    <section class="scroll-section">
+        <div class="reveal-box">
+            <h2 class="poem-title">Kaderimin En Güzel Cevabı</h2>
+            <p class="poem-text">Hayat bana tek bir arzu hakkı sunsa, yine seninle başlayan cümleler kurardım. Yaradan'ın seni var edip, sonra benim ömrüme yazmasından daha büyük, daha yüce bir hediye olamaz bu dünyada. Sen benim kabul olmuş en asil duamsın.</p>
+            <div class="video-wrapper">
+                <div class="play-overlay">❤️</div>
+                <video preload="auto" playsinline webkit-playsinline loop muted>
+                    <source src="video11.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. VİDEO BÖLÜMÜ (video3) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Ebedi Duam</h2>
-            <p class="poem-text">
-                En sade anlarımızda bile dünyanın en zengin insanı gibi hissettiren kadın...
-                Bu dünyada seninle ömrümü paylaşmak yetmez bana,
-                Dualarım hep ahirette de diz dize, göz göze olabilmek üzerine.
-            </p>
+            <p class="poem-text">En sade anlarımızda bile dünyanın en zengin insanı gibi hissettiren kadın... Bu dünyada seninle ömrümü paylaşmak yetmez bana, dualarım hep ahirette de diz dize, göz göze olabilmek üzerine.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -328,15 +324,11 @@
         </div>
     </section>
 
-    <!-- 8. VİDEO BÖLÜMÜ (video7) -->
+    <!-- 10. VİDEO BÖLÜMÜ (video7) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Mezara Kadar, Sonsuza Kadar</h2>
-            <p class="poem-text">
-                Takvimler değişir, yıllar eskir, saçlarımıza aklar düşer belki...
-                Ama sana olan bu aşk ilk günkü tazeliğini asla yitirmez.
-                Son nefesime, kalbimin son vuruşuna kadar sadece sen.
-            </p>
+            <p class="poem-text">Takvimler değişir, yıllar eskir, saçlarımıza aklar düşer belki... Ama sana olan bu aşk ilk günkü tazeliğini asla yitirmez. Son nefesime, kalbimin son vuruşuna kadar sadece sen.</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -346,15 +338,11 @@
         </div>
     </section>
 
-    <!-- 9. VİDEO BÖLÜMÜ (video9) -->
+    <!-- 11. VİDEO BÖLÜMÜ (video9) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">İyi Ki Doğdun Sevgilim, İyi Ki Eşim Oldun!</h2>
-            <p class="poem-text">
-                Sen benim bu hayattaki en güzel tesadüfüm, en büyük şansım ve ödülümsün.
-                Dünüm sendin, bugünüm sensin, yarınlarım da tamamen sana feda olsun. 
-                Doğum günün kutlu olsun kalbimin sultanı, seni çok seviyorum!
-            </p>
+            <p class="poem-text">Sen benim bu hayattaki en güzel tesadüfüm, en büyük şansım ve ödülümsün. Dünüm sendin, bugünüm sensin, yarınlarım da tamamen sana feda olsun. Doğum günün kutlu olsun kalbimin sultanı, seni çok seviyorum!</p>
             <div class="video-wrapper">
                 <div class="play-overlay">❤️</div>
                 <video preload="auto" playsinline webkit-playsinline loop muted>
@@ -365,7 +353,7 @@
     </section>
 
     <script>
-        // 1. Işıltı Animasyonu
+        // Işıltı Animasyonu
         const sparkleContainer = document.getElementById('sparkles');
         const colors = ['#f472b6', '#fbcfe8', '#ffffff', '#c7d2fe'];
         for (let i = 0; i < 35; i++) {
@@ -391,7 +379,7 @@
             document.getElementById('first-video-section').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // 2. Akıllı Kaydırma Gözlemcisi (Intersection Observer)
+        // Akıllı Kaydırma Gözlemcisi
         const observerOptions = {
             root: null,
             rootMargin: '-10% 0px -10% 0px',
@@ -407,7 +395,7 @@
                 if (entry.isIntersecting) {
                     box.classList.add('active');
                     if (video) {
-                        wrapper.classList.remove('paused'); // Duraklatma ikonunu sıfırla
+                        wrapper.classList.remove('paused'); 
                         video.muted = true;
                         let playPromise = video.play();
                         if (playPromise !== undefined) {
@@ -433,20 +421,17 @@
             observer.observe(box);
         });
 
-        // 3. TIKLAYINCA DURDURMA / BAŞLATMA ÖZELLİĞİ (Dinamik ve Akıllı Kurgu)
+        // Tıklayınca Durdurma / Başlatma Özelliği
         document.querySelectorAll('.video-wrapper').forEach(wrapper => {
             const video = wrapper.querySelector('video');
             
             wrapper.addEventListener('click', function(e) {
-                // Sürpriz henüz başlatılmadıysa tıklamayı engelle
                 if (!isAudioUnlocked) return; 
 
                 if (video.paused) {
-                    // Eğer durdurulmuşsa geri oynat ve kalbi kaldır
                     video.play();
                     wrapper.classList.remove('paused');
                 } else {
-                    // Eğer oynuyorsa durdur ve ortada kalbi çıkart
                     video.pause();
                     wrapper.classList.add('paused');
                 }
