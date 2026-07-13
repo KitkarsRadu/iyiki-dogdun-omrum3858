@@ -130,34 +130,38 @@
             word-break: normal;
         }
 
-        /* Canlı Aşk Sayacı */
+        /* GÜNCELLENDİ: TAŞMAYI ÖSLEYEN AKILLI MOBİL SAYAÇ TASARIMI */
         .counter-container {
-            margin: 20px 0;
-            padding: 15px;
+            margin: 20px auto;
+            padding: 15px 10px;
             background: rgba(244, 114, 182, 0.03);
             border-radius: 16px;
             border: 1px solid rgba(244, 114, 182, 0.08);
+            width: 100%;
+            max-width: 420px; /* Telefon ekranları için ideal maksimum genişlik */
         }
         .counter-title {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #f472b6;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
             font-style: italic;
         }
         .counter-grid {
             display: flex;
-            justify-content: center;
-            gap: 12px;
+            justify-content: space-between; /* Kutuları eşit şekilde dağıtır */
+            align-items: center;
+            gap: 4px; /* Mobilde taşmayı önlemek için araları daraltıldı */
         }
         .counter-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 50px;
+            flex: 1; /* Her kutunun ekrana göre esnemesini sağlar */
+            min-width: 0; /* İçeriğin kutuyu zorla büyütmesini engeller */
         }
         .counter-value {
-            font-size: 1.5rem;
+            font-size: 1.35rem; /* Ekranlarda taşmaması için hafifçe optimize edildi */
             font-weight: bold;
             color: #ffffff;
             font-family: monospace;
@@ -166,9 +170,9 @@
             -webkit-text-fill-color: transparent;
         }
         .counter-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #9ca3af;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .audio-btn {
@@ -692,7 +696,7 @@
             });
         });
 
-        // GÜNCELLENDİ: MEKTUP AÇILDIĞINDA MAKSİMUM SEVİYEDE YOĞUN KONFETİ PATLAMASI
+        // MEKTUP AÇILDIĞINDA MAKSİMUM SEVİYEDE YOĞUN KONFETİ PATLAMASI
         const envelopeWrapper = document.getElementById('envelopeWrapper');
         envelopeWrapper.addEventListener('click', function(e) {
             if (!isAudioUnlocked) return;
