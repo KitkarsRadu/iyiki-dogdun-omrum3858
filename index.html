@@ -6,6 +6,9 @@
     <title>İyi Ki Doğdun Dünyam ❤️</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     
+    <!-- Konfeti Efekti İçin Güvenli Kütüphane -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -22,27 +25,26 @@
             scroll-behavior: smooth;
         }
 
-        /* Işıltı Yağmuru */
+        /* Romantik Kalp Yağmuru */
         .sparkle-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 2;
         }
-        .sparkle {
+        .heart-sparkle {
             position: absolute;
-            background: radial-gradient(circle, rgba(255,182,193,0.8) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            animation: floatUp 6s infinite linear;
+            font-size: 14px;
+            animation: floatUpUp 6s infinite linear;
             opacity: 0;
+            color: rgba(244, 114, 182, 0.45);
         }
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-5vh) scale(1.2); opacity: 0; }
+        @keyframes floatUpUp {
+            0% { transform: translateY(105vh) translateX(0) scale(0.6); opacity: 0; }
+            30% { opacity: 0.6; }
+            50% { transform: translateY(50vh) translateX(25px) scale(1); }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-5vh) translateX(-15px) scale(1.3); opacity: 0; }
         }
 
         /* Süslü Şeritler */
@@ -50,12 +52,13 @@
             position: absolute;
             width: 150%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.3), rgba(99, 102, 241, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.25), rgba(99, 102, 241, 0.25), transparent);
             transform: rotate(-5deg);
-            z-index: 1;
+            z-index: 2;
             pointer-events: none;
         }
 
+        /* Geçiş mesafeleri eşit ve kısa tutuldu */
         .scroll-section {
             position: relative;
             min-height: 100vh;
@@ -63,24 +66,44 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 15px;
-            z-index: 2;
+            padding: 20px 15px; 
+            z-index: 3;
+        }
+
+        /* Aşağı Kaydırma Yönlendirme Oku */
+        .scroll-down-arrow {
+            position: absolute;
+            bottom: -25px; 
+            font-size: 2rem;
+            background: linear-gradient(45deg, #f472b6, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bounceArrow 2s infinite;
+            opacity: 0.7;
+            pointer-events: none;
+            font-weight: bold;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(10px); opacity: 0.9; }
         }
 
         .reveal-box {
             opacity: 0;
-            transform: translateY(40px) scale(0.97);
-            transition: all 0.8s ease-out;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             text-align: center;
             max-width: 600px;
             width: 100%;
-            background: rgba(15, 14, 20, 0.85);
+            background: rgba(14, 12, 18, 0.9);
             padding: 30px 20px;
             border-radius: 24px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
         .reveal-box.active {
             opacity: 1;
@@ -97,7 +120,6 @@
             font-weight: bold;
         }
         
-        /* Kelime kaymasını önleyen güncellenmiş yazı stili */
         .poem-text {
             font-size: 1.05rem;
             color: #e5e7eb;
@@ -106,7 +128,47 @@
             font-style: italic;
             word-wrap: break-word;
             word-break: normal;
-            padding: 0 5px;
+        }
+
+        /* Canlı Aşk Sayacı */
+        .counter-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(244, 114, 182, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(244, 114, 182, 0.08);
+        }
+        .counter-title {
+            font-size: 0.95rem;
+            color: #f472b6;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .counter-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+        .counter-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-family: monospace;
+            background: linear-gradient(45deg, #fbcfe8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .counter-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 2px;
         }
 
         .audio-btn {
@@ -119,14 +181,12 @@
             font-style: italic;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(219, 39, 119, 0.3);
+            box-shadow: 0 10px 20px rgba(219, 39, 119, 0.25);
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: bold;
         }
-        .audio-btn:hover {
-            transform: scale(1.05);
-        }
+        .audio-btn:hover { transform: scale(1.05); }
 
         /* Akıllı Video Çerçevesi */
         .video-wrapper {
@@ -136,11 +196,10 @@
             margin: 0 auto;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.8);
             background: transparent; 
             cursor: pointer;
         }
-        
         video {
             width: 100%;
             height: auto; 
@@ -148,35 +207,128 @@
             object-fit: contain;
         }
 
-        /* Video Durdurulduğunda Ortada Çıkan Romantik Kalp İkonu */
         .play-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
             font-size: 3.5rem;
             color: rgba(244, 114, 182, 0.85);
             pointer-events: none;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-shadow: 0 0 20px rgba(0,0,0,0.6);
-            z-index: 3;
+            z-index: 4;
         }
-        .video-wrapper.paused .play-overlay {
-            transform: translate(-50%, -50%) scale(1);
+        .video-wrapper.paused .play-overlay { transform: translate(-50%, -50%) scale(1); }
+
+        /* Mektup ve Zarf Sistemi */
+        .envelope-wrapper {
+            margin-top: 20px;
+            perspective: 1000px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 190px;
+            background: #14111a;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transition: transform 0.5s ease;
+            border: 1px solid rgba(244, 114, 182, 0.12);
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 105px solid #221d2c;
+            transform-origin: top;
+            transition: transform 0.5s ease 0.3s;
+            z-index: 5;
+        }
+        .envelope::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 0; height: 0;
+            border-left: 150px solid rgba(24, 21, 31, 0.96);
+            border-right: 150px solid rgba(24, 21, 31, 0.96);
+            border-bottom: 95px solid rgba(34, 29, 44, 0.96);
+            border-radius: 0 0 16px 16px;
+            z-index: 4;
+        }
+        .seal-heart {
+            position: absolute;
+            top: 83px; left: 134px;
+            font-size: 2rem;
+            color: #db2777;
+            z-index: 6;
+            transition: all 0.4s ease 0.2s;
+            text-shadow: 0 0 12px rgba(219, 39, 119, 0.6);
         }
 
-        .hint {
-            font-size: 0.9rem;
+        .letter-content {
+            position: absolute;
+            top: 15px; left: 15px;
+            width: 270px; max-height: 160px;
+            background: rgba(18, 14, 24, 0.98); 
+            color: #f3f4f6;
+            padding: 25px;
+            border-radius: 16px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-style: italic;
+            line-height: 1.8;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 3;
+            overflow-y: auto;
+            white-space: pre-line;
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .letter-content::-webkit-scrollbar { display: none; }
+        
+        .letter-title {
+            font-size: 1.4rem;
             color: #f472b6;
-            letter-spacing: 2px;
-            animation: pulse 2s infinite;
-            margin-top: 25px;
+            margin-bottom: 20px;
+            display: block;
+            border-bottom: 1px solid rgba(244, 114, 182, 0.15);
+            padding-bottom: 10px;
+        }
+
+        .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); z-index: 2; transition: transform 0.5s ease; }
+        .envelope-wrapper.open .seal-heart { transform: scale(0); opacity: 0; transition: all 0.3s ease; }
+        .envelope-wrapper.open .letter-content {
+            opacity: 1;
+            width: 90vw;
+            max-width: 520px;
+            max-height: 75vh;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            position: fixed;
+            z-index: 99;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 3000px rgba(5,4,6,0.85); 
+            padding: 35px 25px;
+        }
+        .letter-close-btn {
             display: none;
+            text-align: center;
+            margin-top: 30px;
+            color: #f472b6;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            padding: 10px;
+            border-radius: 20px;
+            background: rgba(244, 114, 182, 0.05);
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+        .envelope-wrapper.open .letter-close-btn { display: block; }
     </style>
 </head>
 <body>
@@ -192,10 +344,23 @@
     <section class="scroll-section">
         <div class="reveal-box active">
             <h1 class="poem-title">Ömrümün En Güzel Hikayesine...</h1>
-            <p class="poem-text">Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi. Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün. Her satırda, her karede seni ne kadar çok sevdiğimi bir kez daha hissetmeni istedim. Sesini aç ve bu güzel yolculuğa başla sevgilim...</p>
+            <p class="poem-text">Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi. Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün. Sen Almanya'dayken kalbimin seninle atmaya başladığı o ilk andan beri geçen her an bir lütuf...</p>
+            
+            <div class="counter-container">
+                <div class="counter-title">💖 Mucizemin Başladığı Günden Beri... 💖</div>
+                <div class="counter-grid">
+                    <div class="counter-item"><span class="counter-value" id="c-year">00</span><span class="counter-label">Yıl</span></div>
+                    <div class="counter-item"><span class="counter-value" id="c-month">00</span><span class="counter-label">Ay</span></div>
+                    <div class="counter-item"><span class="counter-value" id="c-day">00</span><span class="counter-label">Gün</span></div>
+                    <div class="counter-item"><span class="counter-value" id="c-hour">00</span><span class="counter-label">Saat</span></div>
+                    <div class="counter-item"><span class="counter-value" id="c-min">00</span><span class="counter-label">Dk</span></div>
+                    <div class="counter-item"><span class="counter-value" id="c-sec">00</span><span class="counter-label">Sn</span></div>
+                </div>
+            </div>
+
             <button class="audio-btn" id="startBtn">Sürprizi Başlat ❤️</button>
-            <div class="hint" id="scrollHint">↓ Şimdi Yavaşça Aşağı Kaydır ↓</div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 1. VİDEO BÖLÜMÜ (video1) -->
@@ -210,6 +375,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 2. VİDEO BÖLÜMÜ (video10) -->
@@ -224,6 +390,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 3. VİDEO BÖLÜMÜ (video6) -->
@@ -238,6 +405,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 4. VİDEO BÖLÜMÜ (video8) -->
@@ -252,6 +420,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 5. VİDEO BÖLÜMÜ (video2) -->
@@ -266,6 +435,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 6. VİDEO BÖLÜMÜ (video5) -->
@@ -280,6 +450,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 7. VİDEO BÖLÜMÜ (video4) -->
@@ -294,9 +465,10 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
-    <!-- 8. VİDEO BÖLÜMÜ (video11 - Güncellenen Kısım) -->
+    <!-- 8. VİDEO BÖLÜMÜ (video11) -->
     <section class="scroll-section">
         <div class="reveal-box">
             <h2 class="poem-title">Kaderimin En Güzel Cevabı</h2>
@@ -308,6 +480,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 9. VİDEO BÖLÜMÜ (video3) -->
@@ -322,6 +495,7 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 10. VİDEO BÖLÜMÜ (video7) -->
@@ -336,10 +510,11 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
     </section>
 
     <!-- 11. VİDEO BÖLÜMÜ (video9) -->
-    <section class="scroll-section">
+    <section class="scroll-section" id="final-video-section">
         <div class="reveal-box">
             <h2 class="poem-title">İyi Ki Doğdun Sevgilim, İyi Ki Eşim Oldun!</h2>
             <p class="poem-text">Sen benim bu hayattaki en güzel tesadüfüm, en büyük şansım ve ödülümsün. Dünüm sendin, bugünüm sensin, yarınlarım da tamamen sana feda olsun. Doğum günün kutlu olsun kalbimin sultanı, seni çok seviyorum!</p>
@@ -350,32 +525,99 @@
                 </video>
             </div>
         </div>
+        <div class="scroll-down-arrow">↓</div>
+    </section>
+
+    <!-- GİZEMLİ MEKTUP BÖLÜMÜ -->
+    <section class="scroll-section">
+        <div class="reveal-box">
+            <h2 class="poem-title" style="margin-bottom: 30px;">Sana Son Bir Sürprizim Var...</h2>
+            
+            <div class="envelope-wrapper" id="envelopeWrapper">
+                <div class="envelope">
+                    <div class="seal-heart">❤️</div>
+                    
+                    <div class="letter-content">
+                        <span class="letter-title">🌹 Ömrüme Ömür Katan Güzel Eşime...</span>
+                        
+                        Zamanın nasıl geçtiğini anlamadığım, her saniyesine şükrettiğim en güzel yolculuğumsun sen. Hayatın tüm koşturmacası, gürültüsü ve yorgunluğu arasında, başımı göğsüne yasladığımda bulduğum o sonsuz huzursun. Bugün, senin bu dünyaya gözlerini açtığın o mucizevi gün; yani benim dünyamın, kaderimin ve kalbimin aydınlandığı gün...
+
+                        Seni sevmek, sadece hayatı birisiyle paylaşmak değilmiş meğer. Seni sevmek; yağan yağmurda seninle ıslanmak, en sade anlarda bile dünyanın en zengin insanı gibi hissettirmek ve her sabaha senin yüzünle uyanacağını bilmenin verdiği o tarifsiz güvenmiş. Benim üzerimdeki emeğini, hayatıma kattığın zarafeti ve o hiç eksilmeyen sevgini kelimelerle anlatmaya gücüm yetmez. Sen benim bu hayattaki en doğru kararım, en güzel tesadüfüm ve kalbime verilmiş en büyük ödülsün.
+
+                        İyi ki doğdun sevgilim, iyi ki yollarımız birleşti ve iyi ki benim eşim oldun. Yeni yaşında yüzündeki o büyüleyici gülüş hiç eksilmesin. Kalbinden geçen tüm dualar, ömrümüz boyunca diz dize, göz göze gerçeğe dönüşsün. Bu dünyada seninle yaşlanmak, ahirette de seninle yeniden uyanmak en büyük duamdır. Doğum günün kutlu olsun kalbimin sultanı, seni her şeyden çok seviyorum...
+
+                        ✨ <strong>Senin İçin Bir Parça Ruhumdan...</strong> ✨
+
+                        Gözlerin bir evren, kaybolup gittiğim,
+                        Sen benim dünyada en çok sevdiğim.
+                        Rabbimden dilediğim ebedi duam,
+                        Sensiz eksik kalır, yarım bu dünyam.
+
+                        Yazmaya vaktimin yetmediği şiirsin,
+                        Sen benim ömrüme ömür verensin.
+                        Solmasın yüzünde o tatlı gülüşün,
+                        Cennettir göğsünde bir anlık duruşun.
+
+                        Takvimler eskir, dursun varsın zaman,
+                        Aşkındır içimde hiç sönmeden yanan.
+                        Mezara kadar sürsün bu kutsal bağımız,
+                        İyi ki doğdun eşim, kutlu olsun yaşımız... 🥂🎉
+                        
+                        <div class="letter-close-btn">Mektubu Kapat ❤️</div>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Sana Bir Mektubum Var (Açmak İçin Dokun)</div>
+        </div>
     </section>
 
     <script>
-        // Işıltı Animasyonu
+        // Romantik Kalp Yağmuru
         const sparkleContainer = document.getElementById('sparkles');
-        const colors = ['#f472b6', '#fbcfe8', '#ffffff', '#c7d2fe'];
         for (let i = 0; i < 35; i++) {
-            let sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.left = Math.random() * 100 + 'vw';
-            sparkle.style.width = sparkle.style.height = Math.random() * 5 + 3 + 'px';
-            sparkle.style.animationDelay = Math.random() * 5 + 's';
-            sparkle.style.animationDuration = Math.random() * 4 + 4 + 's';
-            sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            sparkleContainer.appendChild(sparkle);
+            let heart = document.createElement('div');
+            heart.classList.add('heart-sparkle');
+            heart.innerText = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 6 + 's';
+            heart.style.animationDuration = Math.random() * 4 + 5 + 's';
+            sparkleContainer.appendChild(heart);
         }
 
-        let isAudioUnlocked = false;
+        // Canlı Aşk Sayacı
+        const startDate = new Date('2024-12-24T16:21:00+03:00');
+        function updateLoveCounter() {
+            const now = new Date();
+            let diff = now - startDate;
+            if (diff < 0) diff = 0;
+            let seconds = Math.floor(diff / 1000);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            let startYear = startDate.getFullYear(), startMonth = startDate.getMonth(), startDay = startDate.getDate();
+            let currentYear = now.getFullYear(), currentMonth = now.getMonth(), currentDay = now.getDate();
+            let years = currentYear - startYear, months = currentMonth - startMonth, days = currentDay - startDay;
+            if (days < 0) { months--; let prevMonth = new Date(currentYear, currentMonth, 0).getDate(); days += prevMonth; }
+            if (months < 0) { years--; months += 12; }
+            let displayHours = hours % 24, displayMinutes = minutes % 60, displaySeconds = seconds % 60;
+            document.getElementById('c-year').innerText = String(years).padStart(2, '0');
+            document.getElementById('c-month').innerText = String(months).padStart(2, '0');
+            document.getElementById('c-day').innerText = String(days).padStart(2, '0');
+            document.getElementById('c-hour').innerText = String(displayHours).padStart(2, '0');
+            document.getElementById('c-min').innerText = String(displayMinutes).padStart(2, '0');
+            document.getElementById('c-sec').innerText = String(displaySeconds).padStart(2, '0');
+        }
+        setInterval(updateLoveCounter, 1000);
+        updateLoveCounter();
 
-        // Sürpriz Başlatma Buton Akışı
+        let isAudioUnlocked = false;
+        let confettiInterval = null;
+
+        // Sürpriz Başlatma Butonu
         document.getElementById('startBtn').addEventListener('click', function() {
             isAudioUnlocked = true;
             document.documentElement.style.overflowY = 'auto';
             document.body.style.overflowY = 'auto';
             this.style.display = 'none';
-            document.getElementById('scrollHint').style.display = 'block';
             document.getElementById('first-video-section').scrollIntoView({ behavior: 'smooth' });
         });
 
@@ -395,13 +637,14 @@
                 if (entry.isIntersecting) {
                     box.classList.add('active');
                     if (video) {
-                        wrapper.classList.remove('paused'); 
+                        if (wrapper) wrapper.classList.remove('paused'); 
                         video.muted = true;
                         let playPromise = video.play();
                         if (playPromise !== undefined) {
                             playPromise.then(() => {
-                                if (isAudioUnlocked) {
-                                    video.muted = false;
+                                if (isAudioUnlocked) video.muted = false;
+                                if (box.parentNode.id === 'final-video-section') {
+                                    triggerVideoConfetti();
                                 }
                             }).catch(err => console.log(err));
                         }
@@ -413,6 +656,9 @@
                         video.muted = true;
                         if (wrapper) wrapper.classList.remove('paused');
                     }
+                    if (box.parentNode.id === 'final-video-section') {
+                        clearInterval(confettiInterval);
+                    }
                 }
             });
         }, observerOptions);
@@ -421,13 +667,21 @@
             observer.observe(box);
         });
 
-        // Tıklayınca Durdurma / Başlatma Özelliği
+        // Son video sayfası arka plan konfeti akışı
+        function triggerVideoConfetti() {
+            clearInterval(confettiInterval);
+            confetti({ particleCount: 60, spread: 70, origin: { y: 0.75 }, colors: ['#f472b6', '#ffd700'] });
+            confettiInterval = setInterval(() => {
+                confetti({ particleCount: 2, angle: 60, spread: 60, origin: { x: 0, y: 0.8 }, colors: ['#f472b6', '#ffd700'] });
+                confetti({ particleCount: 2, angle: 120, spread: 60, origin: { x: 1, y: 0.8 }, colors: ['#db2777', '#ffd700'] });
+            }, 350);
+        }
+
+        // Tıklayınca Video Durdurma
         document.querySelectorAll('.video-wrapper').forEach(wrapper => {
             const video = wrapper.querySelector('video');
-            
             wrapper.addEventListener('click', function(e) {
                 if (!isAudioUnlocked) return; 
-
                 if (video.paused) {
                     video.play();
                     wrapper.classList.remove('paused');
@@ -436,6 +690,53 @@
                     wrapper.classList.add('paused');
                 }
             });
+        });
+
+        // GÜNCELLENDİ: MEKTUP AÇILDIĞINDA MAKSİMUM SEVİYEDE YOĞUN KONFETİ PATLAMASI
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        envelopeWrapper.addEventListener('click', function(e) {
+            if (!isAudioUnlocked) return;
+            if (e.target.closest('.letter-content') && !e.target.classList.contains('letter-close-btn')) return;
+
+            this.classList.toggle('open');
+
+            if (this.classList.contains('open')) {
+                // 1. Ekranın tam ortasından devasa patlama (250 Adet!)
+                confetti({
+                    particleCount: 250,
+                    spread: 100,
+                    origin: { y: 0.5 },
+                    colors: ['#f472b6', '#db2777', '#ffd700', '#ffffff', '#6366f1']
+                });
+
+                // 2. Sol alt köşeden yukarı çapraza fırlatma
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 70,
+                    origin: { x: 0, y: 0.9 },
+                    colors: ['#ffd700', '#db2777']
+                });
+
+                // 3. Sağ alt köşeden yukarı çapraza fırlatma
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 70,
+                    origin: { x: 1, y: 0.9 },
+                    colors: ['#ffd700', '#f472b6']
+                });
+
+                // 4. Kısa bir süre sonra (200ms) tepeden aşağı dökülen sürpriz bonus yağmur
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 120,
+                        origin: { y: 0.2 },
+                        colors: ['#fbcfe8', '#ffd700', '#ffffff']
+                    });
+                }, 200);
+            }
         });
     </script>
 </body>
