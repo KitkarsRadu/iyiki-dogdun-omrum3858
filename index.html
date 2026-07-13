@@ -813,6 +813,14 @@
 
         // MEKTUP KONTROLÜ
         const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const pcTriggerSeal = document.getElementById('pcTriggerSeal');
+
+        pcTriggerSeal.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            envelopeWrapper.click();
+        });
         const hintText1 = document.getElementById('hintText1');
         const hintText2 = document.getElementById('hintText2');
 
@@ -912,13 +920,13 @@
             lastX = currentX; lastY = currentY; lastZ = currentZ;
         });
 
-        window.addEventListener('keydown', function() { triggerSuperShakeSürpriz(); });
-        
-        document.getElementById('pcTriggerSeal').addEventListener('click', function(e) {
-            if (!envelopeWrapper.classList.contains('open')) {
-                e.stopPropagation(); triggerSuperShakeSürpriz();
+        window.addEventListener('keydown', function(e) {
+            if (e.key.toLowerCase() === 's') {
+                triggerSuperShakeSürpriz();
             }
         });
+        
+
 
         // Kapatma butonu dinleyicisi temizlendi ve özel konfeti canvas'ını sıfırlayacak şekilde güncellendi
         document.getElementById('closeShakeModal').addEventListener('click', function(e) {
