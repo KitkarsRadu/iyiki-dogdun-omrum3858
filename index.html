@@ -685,6 +685,9 @@
     </section>
 
     <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
         // EKRANA DOKUNUNCA KALP PATLAMA SİSTEMİ
         document.addEventListener('click', function(e) {
             if(e.target.closest('.audio-btn') || e.target.closest('video') || e.target.closest('.emotion-toggle-btn')) return;
@@ -936,6 +939,14 @@
             const oldCanvas = document.getElementById('modalConfettiCanvas');
             if(oldCanvas) oldCanvas.remove();
             setTimeout(() => { isShakeTriggered = false; }, 1000);
+        });
+
+        window.addEventListener('load', function () {
+            window.scrollTo(0, 0);
+        });
+
+        window.addEventListener('pageshow', function () {
+            window.scrollTo(0, 0);
         });
     </script>
 </body>
