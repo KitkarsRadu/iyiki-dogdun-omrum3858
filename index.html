@@ -73,7 +73,7 @@
         .emotion-toggle-btn {
             position: fixed;
             top: 20px;
-            left: 20px; /* Sağa taşan siyah alanda kalmaması için sol üst köşeye sabitlendi */
+            left: 20px; /* Kesin olarak sol üst köşe */
             z-index: 10000;
             background: rgba(14, 12, 18, 0.6);
             border: 1px solid rgba(244, 114, 182, 0.3);
@@ -88,6 +88,32 @@
             transition: all 0.3s ease;
         }
         body.light-emotion-mode .emotion-toggle-btn {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(244, 114, 182, 0.5) !important;
+        }
+        body.light-emotion-mode .envelope-wrapper.open .letter-content {
+            box-shadow: 0 30px 80px rgba(244, 114, 182, 0.2), 0 0 0 3000px rgba(253, 242, 248, 0.95) !important;
+        }
+
+        /* Ses butonu da sola çekildi ve tam tema butonunun altına yerleşti */
+        .audio-toggle-btn {
+            position: fixed;
+            top: 75px; 
+            left: 20px; /* Sağ yerine sol yapılarak ekrandan kaçması engellendi */
+            z-index: 10000;
+            background: rgba(14, 12, 18, 0.6);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        body.light-emotion-mode .audio-toggle-btn {
             background: rgba(255, 255, 255, 0.8) !important;
             border: 1px solid rgba(244, 114, 182, 0.5) !important;
         }
@@ -450,6 +476,8 @@
 <body>
 
     <button class="emotion-toggle-btn" id="emotionToggle" title="Duygu Işığı">💡</button>
+    <!-- YENİ: Ses Kontrol Butonu -->
+    <button class="audio-toggle-btn" id="audioToggle" title="Sesi Kapat/Aç">🔊</button>
 
     <!-- SALLAYINCA AÇILAN ALAN -->
     <div class="shake-modal" id="shakeModal">
@@ -693,6 +721,9 @@
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
+        // YENİ: Ses durumunu hafızada tutan ana kontrol değişkeni en tepeye eklendi
+        let isGlobalMuted = false;
+
         // EKRANA DOKUNUNCA KALP PATLAMA SİSTEMİ
         document.addEventListener('click', function(e) {
             if(e.target.closest('.audio-btn') || e.target.closest('video') || e.target.closest('.emotion-toggle-btn')) return;
@@ -714,6 +745,19 @@
         emotionToggle.addEventListener('click', function() {
             document.body.classList.toggle('light-emotion-mode');
             this.innerText = document.body.classList.contains('light-emotion-mode') ? '🌙' : '💡';
+        });
+
+        // GÜNCELLENDİ: SES AÇMA / KAPATMA SİSTEMİ MOTORU
+        const audioToggle = document.getElementById('audioToggle');
+        
+        audioToggle.addEventListener('click', function() {
+            isGlobalMuted = !isGlobalMuted;
+            this.innerText = isGlobalMuted ? '🔇' : '🔊';
+            
+            // Sitedeki tüm videoları tara ve kullanıcının seçimine göre hepsini sustur veya aç
+            document.querySelectorAll('video').forEach(video => {
+                video.muted = isGlobalMuted;
+            });
         });
 
         // Romantik Kalp Yağmuru
@@ -783,7 +827,10 @@
                         let playPromise = video.play();
                         if (playPromise !== undefined) {
                             playPromise.then(() => {
-                                if (isAudioUnlocked) video.muted = false;
+                                // Gözlemci artık zorla ses açmayacak, senin buton durumunu uygulayacak
+                                if (isAudioUnlocked) {
+                                    video.muted = isGlobalMuted;
+                                }
                                 if (box.parentNode.id === 'final-video-section') triggerVideoConfetti();
                             }).catch(err => console.log(err));
                         }
