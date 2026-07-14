@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>İyi Ki Doğdun Dünyam ❤️</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     
@@ -19,12 +19,24 @@
             background-color: #08070a;
             color: #f3f4f6;
             font-family: 'Georgia', serif;
-            overflow-x: hidden !important;
-            overflow-y: hidden; 
             user-select: none;
             scroll-behavior: smooth;
             transition: background-color 1s ease, color 1s ease;
-            max-width: 100vw !important; /* Ekranın sağa esnemesini kesin olarak engeller */
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Başlangıçta dikey kaydırmayı engellemek için sınıf */
+        body.scroll-locked {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Mobil taşma sorununu (sola yapışmayı) kökten çözen ana sarmalayıcı */
+        .main-wrapper {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
         }
 
         /* AYDINLIK DUYGU MODU GEÇİŞLERİ */
@@ -69,7 +81,9 @@
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
             100% { transform: translate(-50%, -120px) scale(1.4) rotate(15deg); opacity: 0; }
         }
-        .top-controls{
+
+        /* Sabit kontrollerin mobilde tıklanamama ve kaybolma sorununu çözen güncellenmiş stil */
+        .top-controls {
             position: fixed;
             top: max(15px, env(safe-area-inset-top));
             left: 15px;
@@ -78,15 +92,15 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100005;
+            pointer-events: none; /* Altındaki sayfa öğelerine tıklamayı engellememesi için */
         }   
 
-        .emotion-toggle-btn {
-            position: relative;
-            
-            z-index: 100005; /* Kartın kesinlikle üzerinde görünmesi için arttırıldı */
+        .emotion-toggle-btn, .audio-toggle-btn {
+            pointer-events: auto; /* Sadece butonların kendisini tekrar tıklanabilir yapıyoruz */
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
-            width: 42px; height: 45px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -96,40 +110,18 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             transition: all 0.3s ease;
         }
-        body.light-emotion-mode .emotion-toggle-btn {
-            background: rgba(255, 255, 255, 0.85) !important;
-            border: 1px solid rgba(244, 114, 182, 0.5) !important;
-        }
-        body.light-emotion-mode .envelope-wrapper.open .letter-content {
-            box-shadow: 0 30px 80px rgba(244, 114, 182, 0.2), 0 0 0 3000px rgba(253, 242, 248, 0.95) !important;
-        }
-
-        .audio-toggle-btn {
-            position: relative;
-            
-            z-index: 100005;
-            background: rgba(14, 12, 18, 0.7);
-            border: 1px solid rgba(244, 114, 182, 0.3);
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-        }
+        
+        body.light-emotion-mode .emotion-toggle-btn,
         body.light-emotion-mode .audio-toggle-btn {
             background: rgba(255, 255, 255, 0.85) !important;
             border: 1px solid rgba(244, 114, 182, 0.5) !important;
         }
-        /* Aydınlık modda mektup açıldığında arkadaki dev karartma tülünün de toz pembe/beyaz kalmasını sağlar */
+
         body.light-emotion-mode .envelope-wrapper.open .letter-content {
             box-shadow: 0 30px 80px rgba(244, 114, 182, 0.2), 0 0 0 3000px rgba(253, 242, 248, 0.95) !important;
         }
 
-        /* GÖRSEL SÜRPRİZ MODALI (KATMAN EN ÜSTE AYARLANDI) */
+        /* GÖRSEL SÜRPRİZ MODALI */
         .shake-modal {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -242,7 +234,7 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            margin-top: 40px; /* İçerik kutusunu butonların hizasından aşağı iterek çakışmayı önler */
+            margin-top: 40px;
         }
         .reveal-box.active {
             opacity: 1;
@@ -452,11 +444,11 @@
             left: 50%; top: 50%;
             transform: translate(-50%, -50%) scale(1);
             position: fixed;
-            z-index: 9999; /* Yazıların önünde olması için sabitlendi */
+            z-index: 9999;
             box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 3000px rgba(5,4,6,0.92);
             padding: 35px 25px;
         }
-        /* Aydınlık modda arkadaki dev perdenin de yumuşak bir toz pembe/beyaz karartmaya dönüşmesini sağlar */
+
         body.light-emotion-mode .envelope-wrapper.open .letter-content {
             box-shadow: 0 30px 80px rgba(244, 114, 182, 0.2), 0 0 0 3000px rgba(253, 242, 248, 0.95) !important;
         }
@@ -479,26 +471,23 @@
             opacity: 0 !important;
             transition: opacity 0.3s ease;
         }
-        @media (max-width:768px){
 
+        @media (max-width:768px){
             .reveal-box{
                 margin-top:70px;
             }
-
         }
     </style>
 </head>
-<body>
+<body class="scroll-locked"> <!-- Başlangıçta kaydırma kilitli olacak -->
 
+    <!-- Sabit Butonlar (Tıklama Alanları Güvence Altında) -->
     <div class="top-controls">
-
         <button class="emotion-toggle-btn" id="emotionToggle" title="Duygu Işığı">💡</button>
-
         <button class="audio-toggle-btn" id="audioToggle" title="Sesi Kapat/Aç">🔊</button>
-
     </div>
 
-    <!-- SALLAYINCA AÇILAN ALAN -->
+    <!-- SALLAYINCA AÇILAN SÜRPRİZ ALANI -->
     <div class="shake-modal" id="shakeModal">
         <div style="color: #f472b6; font-size: 1.4rem; margin-bottom: 15px; font-style: italic; text-align: center; font-weight: bold; text-shadow: 0 0 10px rgba(244,114,182,0.5);">💖 Kalbimin En Güzel Köşesi... 💖</div>
         <div class="shake-photo-wrapper" id="photoContainer">
@@ -507,245 +496,250 @@
         <button class="audio-btn" id="closeShakeModal" style="margin-top: 25px; position: relative; z-index: 200005;">Kapat ve Devam Et ❤️</button>
     </div>
 
-    <div class="sparkle-container" id="sparkles"></div>
+    <!-- Sitedeki tüm taşma sorunlarını çözen Ana Sarmalayıcı Başlangıcı -->
+    <div class="main-wrapper">
 
-    <div class="romantic-ribbon" style="top: 15vh; left: -20%;"></div>
-    <div class="romantic-ribbon" style="top: 135vh; left: -10%; transform: rotate(8deg);"></div>
-    <div class="romantic-ribbon" style="top: 350vh; left: -30%; transform: rotate(-3deg);"></div>
-    <div class="romantic-ribbon" style="top: 580vh; left: -10%; transform: rotate(6deg);"></div>
+        <div class="sparkle-container" id="sparkles"></div>
 
-    <!-- GİRİŞ EKRANI -->
-    <section class="scroll-section">
-        <div class="reveal-box active">
-            <h1 class="poem-title">Ömrümün En Güzel Hikayesine...</h1>
-            <p class="poem-text">Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi. Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün. Kalbimin seninle atmaya başladığı o ilk andan beri geçen her an bir lütuf...</p>
-            
-            <div class="counter-container">
-                <div class="counter-title">💖 Mucizemin Başladığı Günden Beri... 💖</div>
-                <div class="counter-grid">
-                    <div class="counter-item"><span class="counter-value" id="c-year">00</span><span class="counter-label">Yıl</span></div>
-                    <div class="counter-item"><span class="counter-value" id="c-month">00</span><span class="counter-label">Ay</span></div>
-                    <div class="counter-item"><span class="counter-value" id="c-day">00</span><span class="counter-label">Gün</span></div>
-                    <div class="counter-item"><span class="counter-value" id="c-hour">00</span><span class="counter-label">Saat</span></div>
-                    <div class="counter-item"><span class="counter-value" id="c-min">00</span><span class="counter-label">Dk</span></div>
-                    <div class="counter-item"><span class="counter-value" id="c-sec">00</span><span class="counter-label">Sn</span></div>
-                </div>
-            </div>
+        <div class="romantic-ribbon" style="top: 15vh; left: -20%;"></div>
+        <div class="romantic-ribbon" style="top: 135vh; left: -10%; transform: rotate(8deg);"></div>
+        <div class="romantic-ribbon" style="top: 350vh; left: -30%; transform: rotate(-3deg);"></div>
+        <div class="romantic-ribbon" style="top: 580vh; left: -10%; transform: rotate(6deg);"></div>
 
-            <button class="audio-btn" id="startBtn">❤️ Anılarımıza Dokun ❤️ </button>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <!-- VİDEO SEKSİYONLARI (1-11) -->
-    <section class="scroll-section" id="first-video-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Bir Mucizenin Varlığı</h2>
-            <p class="poem-text">Gökyüzünün yeryüzüne sunduğu en zarif armağansın sen. Bazen hayat yorar ya insanı, sonra bir gülüşün düşer kalbime, tüm dertler silinir gider. Şükrüm, neşem, geleceğim...</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video1.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Ruhumu İyileştiren Sığınak</h2>
-            <p class="poem-text">Dünyanın tüm yükünü omuzlarımdan alan, attığım her adımda hayatımı güzelleştiren yüzüme tebessüm olan tek varlıksın. Sen benim en huzurlu limanım, en berrak gökyüzümsün.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video10.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Gözlerinde Kaybolduğum Evren</h2>
-            <p class="poem-text">Kelimenin bittiği, şiirin başladığı yerdir gözlerin. Oraya her baktığımda kendimi dünyanın en şanslı insanı olarak buluyorum. Sonsuza dek sadece o derinlikte kalmak ister gibi...</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video6.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Gönlümün Tatlı Yangını</h2>
-            <p class="poem-text">Bir insanı sevmek, onun sıcaklığıyla erimekmiş meğer. Seninle yanan bu yürek hiçbir kışta üşümez artık. Aşkın en harlı, en güzel, en kor hali sensin içimde.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video8.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Zamanın Ötesinde</h2>
-            <p class="poem-text">Seni düşünmekle başlıyor benim günüm ve seninle bitiyor. Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor. Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video2.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Çiçeklerin Kıskandığı Zarafet</h2>
-            <p class="poem-text">Gizli bir melodi gibisin, ruhuma fısıldanan en güzel ezgi. Adımlarının değdiği yerde çiçekler açar, sesinin değdiği kalpte bayramlar başlar. Sen benim en özel masalımsın.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video5.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Yol Arkadaşım</h2>
-            <p class="poem-text">Hayat yolunda elini tutarak yürümekten daha büyük bir gurur yok bana. Yanımda durduğun, bana sadece bakışlarınla bile dünyaları verdiğin için ruhumun derinliklerinden binlerce kez teşekkür ederim eşime...</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video4.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Kaderimin En Güzel Cevabı</h2>
-            <p class="poem-text">Hayat bana tek bir arzu hakkı sunsa, yine seninle başlayan cümleler kurardım. Yaradan'ın seni var edip, sonra benim ömrüme yazmasından daha büyük, daha yüce bir hediye olamaz bu dünyada. Sen benim kabul olmuş en asil duamsın.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video11.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Ebedi Duam</h2>
-            <p class="poem-text">En sade anlarımızda bile dünyanın en zengin insanı gibi hissettiren kadın... Bu dünyada seninle ömrümü paylaşmak yetmez bana, dualarım hep ahirette de diz dize, göz göze olabilmek üzerine.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video3.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">Mezara Kadar, Sonsuza Kadar</h2>
-            <p class="poem-text">Takvimler değişir, yıllar eskir, saçlarımıza aklar düşer belki... Ama sana olan bu aşk ilk günkü tazeliğini asla yitirmez. Son nefesime, kalbimin son vuruşuna kadar sadece sen.</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video7.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <section class="scroll-section" id="final-video-section">
-        <div class="reveal-box">
-            <h2 class="poem-title">İyi Ki Doğdun Sevgilim, İyi Ki Eşim Oldun!</h2>
-            <p class="poem-text">Sen benim bu hayattaki en güzel tesadüfüm, en büyük şansım ve ödülümsün. Dünüm sendin, bugünüm sensin, yarınlarım da tamamen sana feda olsun. Doğum günün kutlu olsun kalbimin sultanı, seni çok seviyorum!</p>
-            <div class="video-wrapper">
-                <div class="play-overlay">❤️</div>
-                <video preload="auto" playsinline webkit-playsinline loop muted>
-                    <source src="video9.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="scroll-down-arrow">↓</div>
-    </section>
-
-    <!-- GİZEMLİ MEKTUP BÖLÜMÜ -->
-    <section class="scroll-section">
-        <div class="reveal-box">
-            <h2 class="poem-title" style="margin-bottom: 30px;">Kalbimin Derinliklerinden Gelen Ses...</h2>
-            
-            <div class="envelope-wrapper" id="envelopeWrapper">
-                <div class="envelope">
-                    <div class="seal-heart" id="pcTriggerSeal">❤️</div>
-                    
-                    <div class="letter-content">
-                        <span class="letter-title">🌹 Ömrüme Ömür Katan Güzel Eşime...</span>
-                        
-                        Zamanın nasıl geçtiğini anlamadığım, her saniyesine şükrettiğim en güzel yolculuğumsun sen. Hayatın tüm koşturmacası, gürültüsü ve yorgunluğu arasında, başımı göğsüne yasladığımda bulduğum o sonsuz huzursun. Bugün, senin bu dünyaya gözlerini açtığın o mucizevi gün; yani benim dünyamın, kaderimin ve kalbimin aydınlandığı gün...
-
-                        Seni sevmek, sadece hayatı birisiyle paylaşmak değilmiş meğer. Seni sevmek; yağan yağmurda seninle ıslanmak, en sade anlarda bile dünyanın en zengin insanı gibi hissettirmek ve her sabaha senin yüzünle uyanacağını bilmenin verdiği o tarifsiz güvenmiş. Benim üzerimdeki emeğini, hayatıma kattığın zarafeti ve o hiç eksilmeyen sevgini kelimelerle anlatmaya gücüm yetmez. Sen benim bu hayattaki en doğru kararım, en güzel tesadüfüm kalbime verilmiş en büyük ödülsün.
-
-                        İyi ki doğdun sevgilim, iyi ki yollarımız birleşti ve iyi ki benim eşim oldun. Yeni yaşında yüzündeki o büyüleyici gülüş hiç eksilmesin. Kalbinden geçen tüm dualar, ömrümüz boyunca diz dize, göz göze gerçeğe dönüşsün. Bu dünyada seninle yaşlanmak, ahirette de seninle yeniden uyanmak en büyük duamdır. Doğum günün kutlu olsun kalbimin sultanı, seni her şeyden çok seviyorum...
-
-                        ✨ <strong>Senin İçin Bir Parça Ruhumdan...</strong> ✨
-
-                        Gözlerin bir evren, kaybolup gittiğim,
-                        Sen benim dünyada en çok sevdiğim.
-                        Rabbimden dilediğim ebedi duam,
-                        Sensiz eksik kalır, yarım bu dünyam.
-
-                        Yazmaya vaktimin yetmediği şiirsin,
-                        Sen benim ömrüme ömür verensin.
-                        Solmasın yüzünde o tatlı gülüşün,
-                        Cennettir göğsünde bir anlık duruşun.
-
-                        Takvimler eskir, dursun varsın zaman,
-                        Aşkındır içimde hiç sönmeden yanan.
-                        Mezara kadar sürsün bu kutsal bağımız,
-                        İyi ki doğdun eşim, kutlu olsun yaşımız... 🥂🎉
-                        
-                        <div class="letter-close-btn" id="letterCloseBtn">Mektubu Kapat ❤️</div>
+        <!-- GİRİŞ EKRANI -->
+        <section class="scroll-section">
+            <div class="reveal-box active">
+                <h1 class="poem-title">Ömrümün En Güzel Hikayesine...</h1>
+                <p class="poem-text">Zamanı durdurmak istediğim anlar var, seninle geçen her saniye gibi. Bugün sadece senin doğduğun gün değil, benim dünyamın aydınlandığı gün. Kalbimin seninle atmaya başladığı o ilk andan beri geçen her an bir lütuf...</p>
+                
+                <div class="counter-container">
+                    <div class="counter-title">💖 Mucizemin Başladığı Günden Beri... 💖</div>
+                    <div class="counter-grid">
+                        <div class="counter-item"><span class="counter-value" id="c-year">00</span><span class="counter-label">Yıl</span></div>
+                        <div class="counter-item"><span class="counter-value" id="c-month">00</span><span class="counter-label">Ay</span></div>
+                        <div class="counter-item"><span class="counter-value" id="c-day">00</span><span class="counter-label">Gün</span></div>
+                        <div class="counter-item"><span class="counter-value" id="c-hour">00</span><span class="counter-label">Saat</span></div>
+                        <div class="counter-item"><span class="counter-value" id="c-min">00</span><span class="counter-label">Dk</span></div>
+                        <div class="counter-item"><span class="counter-value" id="c-sec">00</span><span class="counter-label">Sn</span></div>
                     </div>
                 </div>
+
+                <button class="audio-btn" id="startBtn">❤️ Anılarımıza Dokun ❤️ </button>
             </div>
-            <div id="hintText1" style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Kalbinin sesini dinle ve kalbime dokun... ❤️</div>
-            <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8;">📱 Telefonu salla (veya PC'de S tuşuna bas) mucizeyi gör! ✨</div>
-        </div>
-    </section>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <!-- VİDEO SEKSİYONLARI (1-11) -->
+        <section class="scroll-section" id="first-video-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Bir Mucizenin Varlığı</h2>
+                <p class="poem-text">Gökyüzünün yeryüzüne sunduğu en zarif armağansın sen. Bazen hayat yorar ya insanı, sonra bir gülüşün düşer kalbime, tüm dertler silinir gider. Şükrüm, neşem, geleceğim...</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video1.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Ruhumu İyileştiren Sığınak</h2>
+                <p class="poem-text">Dünyanın tüm yükünü omuzlarımdan alan, attığım her adımda hayatımı güzelleştiren yüzüme tebessüm olan tek varlıksın. Sen benim en huzurlu limanım, en berrak gökyüzümsün.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video10.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Gözlerinde Kaybolduğum Evren</h2>
+                <p class="poem-text">Kelimenin bittiği, şiirin başladığı yerdir gözlerin. Oraya her baktığımda kendimi dünyanın en şanslı insanı olarak buluyorum. Sonsuza dek sadece o derinlikte kalmak ister gibi...</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video6.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Gönlümün Tatlı Yangını</h2>
+                <p class="poem-text">Bir insanı sevmek, onun sıcaklığıyla erimekmiş meğer. Seninle yanan bu yürek hiçbir kışta üşümez artık. Aşkın en harlı, en güzel, en kor hali sensin içimde.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video8.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Zamanın Ötesinde</h2>
+                <p class="poem-text">Seni düşünmekle başlıyor benim günüm ve seninle bitiyor. Doğa, ağaçlar, yağan yağmur sanki hep bizim tempomuzda hareket ediyor. Sen varsın diye tüm dünya daha güzel dönüyor sevgilim.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video2.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Çiçeklerin Kıskandığı Zarafet</h2>
+                <p class="poem-text">Gizli bir melodi gibisin, ruhuma fısıldanan en güzel ezgi. Adımlarının değdiği yerde çiçekler açar, sesinin değdiği kalpte bayramlar başlar. Sen benim en özel masalımsın.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video5.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Yol Arkadaşım</h2>
+                <p class="poem-text">Hayat yolunda elini tutarak yürümekten daha büyük bir gurur yok bana. Yanımda durduğun, bana sadece bakışlarınla bile dünyaları verdiğin için ruhumun derinliklerinden binlerce kez teşekkür ederim eşime...</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video4.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Kaderimin En Güzel Cevabı</h2>
+                <p class="poem-text">Hayat bana tek bir arzu hakkı sunsa, yine seninle başlayan cümleler kurardım. Yaradan'ın seni var edip, sonra benim ömrüme yazmasından daha büyük, daha yüce bir hediye olamaz bu dünyada. Sen benim kabul olmuş en asil duamsın.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video11.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Ebedi Duam</h2>
+                <p class="poem-text">En sade anlarımızda bile dünyanın en zengin insanı gibi hissettiren kadım... Bu dünyada seninle ömrümü paylaşmak yetmez bana, dualarım hep ahirette de diz dize, göz göze olabilmek üzerine.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video3.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">Mezara Kadar, Sonsuza Kadar</h2>
+                <p class="poem-text">Takvimler değişir, yıllar eskir, saçlarımıza aklar düşer belki... Ama sana olan bu aşk ilk günkü tazeliğini asla yitirmez. Son nefesime, kalbimin son vuruşuna kadar sadece sen.</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video7.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <section class="scroll-section" id="final-video-section">
+            <div class="reveal-box">
+                <h2 class="poem-title">İyi Ki Doğdun Sevgilim, İyi Ki Eşim Oldun!</h2>
+                <p class="poem-text">Sen benim bu hayattaki en güzel tesadüfüm, en büyük şansım ve ödülümsün. Dünüm sendin, bugünüm sensin, yarınlarım da tamamen sana feda olsun. Doğum günün kutlu olsun kalbimin sultanı, seni çok seviyorum!</p>
+                <div class="video-wrapper">
+                    <div class="play-overlay">❤️</div>
+                    <video preload="auto" playsinline webkit-playsinline loop muted>
+                        <source src="video9.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="scroll-down-arrow">↓</div>
+        </section>
+
+        <!-- GİZEMLİ MEKTUP BÖLÜMÜ -->
+        <section class="scroll-section">
+            <div class="reveal-box">
+                <h2 class="poem-title" style="margin-bottom: 30px;">Kalbimin Derinliklerinden Gelen Ses...</h2>
+                
+                <div class="envelope-wrapper" id="envelopeWrapper">
+                    <div class="envelope">
+                        <div class="seal-heart" id="pcTriggerSeal">❤️</div>
+                        
+                        <div class="letter-content">
+                            <span class="letter-title">🌹 Ömrüme Ömür Katan Güzel Eşime...</span>
+                            
+                            Zamanın nasıl geçtiğini anlamadığım, her saniyesine şükrettiğim en güzel yolculuğumsun sen. Hayatın tüm koşturmacası, gürültüsü ve yorgunluğu arasında, başımı göğsüne yasladığımda bulduğum o sonsuz huzursun. Bugün, senin bu dünyaya gözlerini açtığın o mucizevi gün; yani benim dünyamın, kaderimin ve kalbimin aydınlandığı gün...
+
+                            Seni sevmek, sadece hayatı birisiyle paylaşmak değilmiş meğer. Seni sevmek; yağan yağmurda seninle ıslanmak, en sade anlarda bile dünyanın en zengin insanı gibi hissettirmek ve her sabaha senin yüzünle uyanacağını bilmenin verdiği o tarifsiz güvenmiş. Benim üzerimdeki emeğini, hayatıma kattığın zarafeti ve o hiç eksilmeyen sevgini kelimelerle anlatmaya gücüm yetmez. Sen benim bu hayattaki en doğru kararım, en güzel tesadüfüm kalbime verilmiş en büyük ödülsün.
+
+                            İyi ki doğdun sevgilim, iyi ki yollarımız birleşti ve iyi ki benim eşim oldun. Yeni yaşında yüzündeki o büyüleyici gülüş hiç eksilmesin. Kalbinden geçen tüm dualar, ömrümüz boyunca diz dize, göz göze gerçeğe dönüşsün. Bu dünyada seninle yaşlanmak, ahirette de seninle yeniden uyanmak en büyük duamdır. Doğum günün kutlu olsun kalbimin sultanı, seni her şeyden çok seviyorum...
+
+                            ✨ <strong>Senin İçin Bir Parça Ruhumdan...</strong> ✨
+
+                            Gözlerin bir evren, kaybolup gittiğim,
+                            Sen benim dünyada en çok sevdiğim.
+                            Rabbimden dilediğim ebedi duam,
+                            Sensiz eksik kalır, yarım bu dünyam.
+
+                            Yazmaya vaktimin yetmediği şiirsin,
+                            Sen benim ömrüme ömür verensin.
+                            Solmasın yüzünde o tatlı gülüşün,
+                            Cennettir göğsünde bir anlık duruşun.
+
+                            Takvimler eskir, dursun varsın zaman,
+                            Aşkındır içimde hiç sönmeden yanan.
+                            Mezara kadar sürsün bu kutsal bağımız,
+                            İyi ki doğdun eşim, kutlu olsun yaşımız... 🥂🎉
+                            
+                            <div class="letter-close-btn" id="letterCloseBtn">Mektubu Kapat ❤️</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="hintText1" style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Kalbinin sesini dinle ve kalbime dokun... ❤️</div>
+                <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8;">📱 Telefonu salla (veya PC'de S tuşuna bas) mucizeyi gör! ✨</div>
+            </div>
+        </section>
+
+    </div> <!-- Ana Sarmalayıcı Bitişi -->
 
     <script>
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
-        // YENİ: Ses durumunu hafızada tutan ana kontrol değişkeni en tepeye eklendi
+        
         let isGlobalMuted = false;
 
         // EKRANA DOKUNUNCA KALP PATLAMA SİSTEMİ
         document.addEventListener('click', function(e) {
-            if(e.target.closest('.audio-btn') || e.target.closest('video') || e.target.closest('.emotion-toggle-btn')) return;
+            if(e.target.closest('.audio-btn') || e.target.closest('video') || e.target.closest('.emotion-toggle-btn') || e.target.closest('.audio-toggle-btn')) return;
             for(let i=0; i<3; i++) {
                 let heart = document.createElement('div');
                 heart.className = 'click-heart';
@@ -766,14 +760,12 @@
             this.innerText = document.body.classList.contains('light-emotion-mode') ? '🌙' : '💡';
         });
 
-        // GÜNCELLENDİ: SES AÇMA / KAPATMA SİSTEMİ MOTORU
+        // SES AÇMA / KAPATMA SİSTEMİ MOTORU
         const audioToggle = document.getElementById('audioToggle');
-        
         audioToggle.addEventListener('click', function() {
             isGlobalMuted = !isGlobalMuted;
             this.innerText = isGlobalMuted ? '🔇' : '🔊';
             
-            // Sitedeki tüm videoları tara ve kullanıcının seçimine göre hepsini sustur veya aç
             document.querySelectorAll('video').forEach(video => {
                 video.muted = isGlobalMuted;
             });
@@ -819,11 +811,10 @@
         let isAudioUnlocked = false;
         let confettiInterval = null;
 
-        // Sürpriz Başlatma Butonu
+        // Sürpriz Başlatma Butonu (CSS class ile kilit kaldırılıyor)
         document.getElementById('startBtn').addEventListener('click', function() {
             isAudioUnlocked = true;
-            document.documentElement.style.overflowY = 'auto';
-            document.body.style.overflowY = 'auto';
+            document.body.classList.remove('scroll-locked');
             this.style.display = 'none';
             document.getElementById('first-video-section').scrollIntoView({ behavior: 'smooth' });
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -846,7 +837,6 @@
                         let playPromise = video.play();
                         if (playPromise !== undefined) {
                             playPromise.then(() => {
-                                // Gözlemci artık zorla ses açmayacak, senin buton durumunu uygulayacak
                                 if (isAudioUnlocked) {
                                     video.muted = isGlobalMuted;
                                 }
@@ -892,7 +882,6 @@
         pcTriggerSeal.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-
             envelopeWrapper.click();
         });
         const hintText1 = document.getElementById('hintText1');
@@ -908,7 +897,6 @@
                 hintText1.classList.add('hidden-text-group');
                 hintText2.classList.add('hidden-text-group');
                 
-                // Mektup konfetileri zorla en üst zIndex ile tetiklenir
                 confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 }, colors: ['#f472b6', '#db2777', '#ffd700', '#ffffff', '#6366f1'], zIndex: 300000 });
                 confetti({ particleCount: 80, angle: 60, spread: 70, origin: { x: 0, y: 0.9 }, colors: ['#ffd700', '#db2777'], zIndex: 300000 });
                 confetti({ particleCount: 80, angle: 120, spread: 70, origin: { x: 1, y: 0.9 }, colors: ['#ffd700', '#f472b6'], zIndex: 300000 });
@@ -919,7 +907,7 @@
             }
         });
 
-        // SALLAMA VE GÜVENLİ ÖN PLAN KONFETİ SİSTEMİ
+        // SALLAMA SİSTEMİ
         let lastX = null, lastY = null, lastZ = null;
         let shakeThreshold = 18; 
         let isShakeTriggered = false;
@@ -931,7 +919,6 @@
             
             shakeModal.classList.add('active');
 
-            // FOTOĞRAFIN TAM ÜZERİNE ÇİZİM YAPACAK ÖZEL SİHİRLİ CANVAS ALANI OLUŞTURULUYOR
             let modalCanvas = document.createElement('canvas');
             modalCanvas.id = 'modalConfettiCanvas';
             modalCanvas.style.position = 'fixed';
@@ -940,10 +927,9 @@
             modalCanvas.style.width = '100vw';
             modalCanvas.style.height = '100vh';
             modalCanvas.style.pointerEvents = 'none';
-            modalCanvas.style.zIndex = '200000'; // Fotoğrafın (100000) tam önü
+            modalCanvas.style.zIndex = '200000';
             document.body.appendChild(modalCanvas);
 
-            // Konfeti motorunu bu yeni en üst katmana bağlıyoruz
             let myConfetti = confetti.create(modalCanvas, { resize: true, useWorker: true });
 
             let duration = 3500; 
@@ -999,14 +985,10 @@
                 triggerSuperShakeSürpriz();
             }
         });
-        
 
-
-        // Kapatma butonu dinleyicisi temizlendi ve özel konfeti canvas'ını sıfırlayacak şekilde güncellendi
         document.getElementById('closeShakeModal').addEventListener('click', function(e) {
             e.stopPropagation();
             shakeModal.classList.remove('active');
-            // Fotoğrafın üzerindeki ekstra konfeti canvas alanını temizle
             const oldCanvas = document.getElementById('modalConfettiCanvas');
             if(oldCanvas) oldCanvas.remove();
             setTimeout(() => { isShakeTriggered = false; }, 1000);
