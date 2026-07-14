@@ -70,7 +70,7 @@
             100% { transform: translate(-50%, -120px) scale(1.4) rotate(15deg); opacity: 0; }
         }
         .top-controls{
-             position: fixed;
+            position: fixed;
             top: max(15px, env(safe-area-inset-top));
             left: 15px;
             right: 15px;
@@ -78,12 +78,11 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100005;
-            pointer-events: none;
-        }
+        }   
 
         .emotion-toggle-btn {
             position: relative;
-            pointer-events: auto;
+            
             z-index: 100005; /* Kartın kesinlikle üzerinde görünmesi için arttırıldı */
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
@@ -107,7 +106,7 @@
 
         .audio-toggle-btn {
             position: relative;
-            pointer-events: auto;
+            
             z-index: 100005;
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
