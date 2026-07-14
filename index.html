@@ -69,11 +69,20 @@
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
             100% { transform: translate(-50%, -120px) scale(1.4) rotate(15deg); opacity: 0; }
         }
+        .top-controls{
+             position: fixed;
+            top: max(15px, env(safe-area-inset-top));
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100005;
+            pointer-events: none;
+        }
 
         .emotion-toggle-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px; /* Sol üst köşe */
+            position: relative;
             z-index: 100005; /* Kartın kesinlikle üzerinde görünmesi için arttırıldı */
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
@@ -96,9 +105,7 @@
         }
 
         .audio-toggle-btn {
-            position: fixed;
-            top: 15px; 
-            right: 15px; /* Sağ üst köşeye simetrik olarak açıldı */
+            position: relative;
             z-index: 100005;
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
@@ -471,13 +478,24 @@
             opacity: 0 !important;
             transition: opacity 0.3s ease;
         }
+        @media (max-width:768px){
+
+            .reveal-box{
+                margin-top:70px;
+            }
+
+        }
     </style>
 </head>
 <body>
 
-    <button class="emotion-toggle-btn" id="emotionToggle" title="Duygu Işığı">💡</button>
-    <!-- YENİ: Ses Kontrol Butonu -->
-    <button class="audio-toggle-btn" id="audioToggle" title="Sesi Kapat/Aç">🔊</button>
+    <div class="top-controls">
+
+        <button class="emotion-toggle-btn" id="emotionToggle" title="Duygu Işığı">💡</button>
+
+        <button class="audio-toggle-btn" id="audioToggle" title="Sesi Kapat/Aç">🔊</button>
+
+    </div>
 
     <!-- SALLAYINCA AÇILAN ALAN -->
     <div class="shake-modal" id="shakeModal">
