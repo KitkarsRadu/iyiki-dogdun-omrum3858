@@ -421,6 +421,10 @@
             border: 1px solid rgba(244, 114, 182, 0.2);
             -ms-overflow-style: none;  
             scrollbar-width: none;  
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         .letter-content::-webkit-scrollbar { display: none; }
         
@@ -464,6 +468,10 @@
             padding: 10px;
             border-radius: 20px;
             background: rgba(244, 114, 182, 0.05);
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
         }
         .envelope-wrapper.open .letter-close-btn { display: block; }
 
@@ -878,22 +886,27 @@
         // MEKTUP KONTROLÜ
         const envelopeWrapper = document.getElementById('envelopeWrapper');
         const pcTriggerSeal = document.getElementById('pcTriggerSeal');
+        const letterCloseBtn = document.getElementById('letterCloseBtn');
+        const hintText1 = document.getElementById('hintText1');
+        const hintText2 = document.getElementById('hintText2');
 
         pcTriggerSeal.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             envelopeWrapper.click();
         });
-        const hintText1 = document.getElementById('hintText1');
-        const hintText2 = document.getElementById('hintText2');
 
-        envelopeWrapper.addEventListener('click', function(e) {
-            if (!isAudioUnlocked) return;
-            if (e.target.closest('.letter-content') && e.target.id !== 'letterCloseBtn') return;
+        function toggleEnvelope(forceClose = false) {
+            if (forceClose) {
+                envelopeWrapper.classList.remove('open');
+                hintText1.classList.remove('hidden-text-group');
+                hintText2.classList.remove('hidden-text-group');
+                return;
+            }
 
-            this.classList.toggle('open');
+            envelopeWrapper.classList.toggle('open');
 
-            if (this.classList.contains('open')) {
+            if (envelopeWrapper.classList.contains('open')) {
                 hintText1.classList.add('hidden-text-group');
                 hintText2.classList.add('hidden-text-group');
                 
@@ -905,6 +918,19 @@
                 hintText1.classList.remove('hidden-text-group');
                 hintText2.classList.remove('hidden-text-group');
             }
+        }
+
+        envelopeWrapper.addEventListener('click', function(e) {
+            if (!isAudioUnlocked) return;
+            if (e.target.closest('.letter-content')) return;
+
+            toggleEnvelope();
+        });
+
+        letterCloseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleEnvelope(true);
         });
 
         // SALLAMA SİSTEMİ
