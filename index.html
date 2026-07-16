@@ -508,6 +508,251 @@
                 margin-top:70px;
             }
         }
+
+        /* ==========================================
+           GELECEK BİLETLERİ OYUNU CSS ALANI
+           ========================================== */
+        .tickets-section {
+            background: rgba(14, 12, 18, 0.4);
+            border-top: 1px solid rgba(244, 114, 182, 0.1);
+            padding: 60px 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .tickets-counter {
+            font-size: clamp(0.95rem, 3vw, 1.2rem); /* Mobilde taşmayı önleyen dinamik boyut */
+            color: #f472b6;
+            margin: 0 auto 30px auto;
+            font-style: italic;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(244, 114, 182, 0.3);
+            transition: all 0.5s ease;
+            max-width: 90%; /* Taşmayı önler */
+            word-wrap: break-word;
+        }
+
+        /* Başlığın da taşmasını önlemek için dinamik font boyutu */
+        .tickets-section h2.poem-title {
+            font-size: clamp(1.3rem, 4vw, 1.8rem) !important;
+            max-width: 95%;
+            margin: 0 auto 15px auto;
+        }
+
+        /* BİLET DETAYLARINI GÖSTEREN ROMANTİK AÇIKLAMA KUTUSU */
+        .ticket-detail-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 4, 6, 0.94);
+            z-index: 100010;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 20px;
+        }
+        .ticket-detail-modal.active {
+            opacity: 1; pointer-events: auto;
+        }
+        .ticket-detail-content {
+            background: rgba(20, 17, 26, 0.98);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            box-shadow: 0 0 40px rgba(244, 114, 182, 0.15);
+            border-radius: 20px;
+            padding: 25px 20px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        body.light-emotion-mode .ticket-detail-content {
+            background: rgba(255, 255, 255, 0.99) !important;
+            border: 1px solid rgba(244, 114, 182, 0.4) !important;
+            box-shadow: 0 20px 50px rgba(244, 114, 182, 0.15) !important;
+        }
+        .ticket-detail-modal.active .ticket-detail-content {
+            transform: scale(1);
+        }
+        .ticket-detail-img {
+            width: 100%;
+            max-width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 0 auto 15px auto;
+            border: 2px solid rgba(244, 114, 182, 0.2);
+            display: block;
+        }
+        .ticket-detail-title {
+            font-size: 1.3rem;
+            color: #f472b6;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        .ticket-detail-text {
+            font-size: 0.95rem;
+            color: #e5e7eb;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        body.light-emotion-mode .ticket-detail-text {
+            color: #374151 !important;
+        }
+        /* 12 Kartı Kusursuz Bir 3'lü Sütun (3x4 Grid) Yapan Tasarım */
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Kesin olarak yan yana 3 kart */
+            gap: 12px;
+            max-width: 550px; /* PC'de kartların çok yayılıp büyümesini engeller */
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        /* 3'lü yerleşim için yüksekliği mükemmel orana çektik */
+        .ticket-card {
+            perspective: 1000px;
+            height: 175px; 
+            cursor: pointer;
+            position: relative;
+        }
+
+        .ticket-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        /* Tıklanınca Kartın Dönmesini Sağlayan Sınıf */
+        .ticket-card.flipped .ticket-inner {
+            transform: rotateY(180deg);
+        }
+
+        .ticket-front, .ticket-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Kartın Arkası (Kapalı Hali) */
+        .ticket-front {
+            background-color: #14111a;
+        }
+        .ticket-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Kartın Önü (Açılan Sürpriz Hali) */
+        .ticket-back {
+            background-color: #1a1625;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .ticket-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Açılan Kartın Altındaki Anlam Yazısı */
+        .ticket-desc {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to top, rgba(8, 7, 10, 0.95) 75%, transparent);
+            padding: 8px 5px;
+            font-size: 0.75rem;
+            color: #f3f4f6;
+            font-style: italic;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .ticket-quantity {
+            position: absolute;
+            top: 6px; right: 6px;
+            background: rgba(219, 39, 119, 0.85);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 3;
+            letter-spacing: 0.5px;
+        }
+
+        /* BÜYÜK SÜRPRİZ MODALI (5 Tane Seçilince Açılan Kutu) */
+        .big-gift-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 4, 6, 0.96);
+            z-index: 100008;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.8s ease;
+            padding: 20px;
+        }
+        .big-gift-modal.active {
+            opacity: 1; pointer-events: auto;
+        }
+        .big-gift-content {
+            background: rgba(20, 17, 26, 0.98);
+            border: 1px solid rgba(244, 114, 182, 0.35);
+            box-shadow: 0 0 50px rgba(244, 114, 182, 0.2);
+            border-radius: 24px;
+            padding: 35px 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .big-gift-modal.active .big-gift-content {
+            transform: scale(1);
+        }
+        .big-gift-title {
+            font-size: 1.5rem;
+            color: #f472b6;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(244,114,182,0.4);
+        }
+        .big-gift-text {
+            font-size: 1.05rem;
+            color: #f3f4f6;
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        /* Seçimler bitince kartların soluklaşmasını önlemek için */
+        .ticket-card.disabled {
+            cursor: default;
+        }
     </style>
 </head>
 <body class="scroll-locked"> 
@@ -760,6 +1005,157 @@
                 <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8;">📱 Telefonu salla (veya PC'de S tuşuna bas) mucizeyi gör! ✨</div>
             </div>
         </section>
+        <!-- ==========================================
+           GELECEK BİLETLERİ OYUNU HTML ALANI
+           ========================================== -->
+        <section class="scroll-section" style="min-height: auto; padding: 80px 15px;">
+            <div class="reveal-box" style="max-width: 950px; padding: 40px 15px;">
+                <h2 class="poem-title" style="margin-bottom: 10px;">🎁 Geleceğimizden Küçük Sözler 🎁</h2>
+                <div class="tickets-counter" id="ticketsCounter">Lütfen en çok istediğin 5 bileti seç sevgilim... (Kalan Hak: 5)</div>
+                
+                <div class="tickets-grid">
+                    <!-- Kart 1 -->
+                    <div class="ticket-card" data-id="1">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart1.png" alt="Bilet">
+                                <div class="ticket-desc">Alışveriş Arabası Yarışı 🛒</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 2 -->
+                    <div class="ticket-card" data-id="2">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart2.png" alt="Bilet">
+                                <div class="ticket-desc">Benim Gözümden Sen 📸</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 3 -->
+                    <div class="ticket-card" data-id="3">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart3.png" alt="Bilet">
+                                <div class="ticket-desc">Tatlı Krizi Kaçamağı 🍓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 4 -->
+                    <div class="ticket-card" data-id="4">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart4.png" alt="Bilet">
+                                <div class="ticket-desc">İlk Keşfedeceğimiz Şehir 🗺️</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 5 -->
+                    <div class="ticket-card" data-id="5">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart5.png" alt="Bilet">
+                                <div class="ticket-desc">Sonsuz Kahve & Sohbet ☕</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 6 -->
+                    <div class="ticket-card" data-id="6">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart6.png" alt="Bilet">
+                                <div class="ticket-desc">Sinema Gecesi 🍿</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 7 -->
+                    <div class="ticket-card" data-id="7">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart7.png" alt="Bilet">
+                                <div class="ticket-desc">Küsme / Şımarma İksiri 🧪</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 8 -->
+                    <div class="ticket-card" data-id="8">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart8.png" alt="Bilet">
+                                <div class="ticket-desc">Ellerimle Tatlı Sözü 🧁</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 9 -->
+                    <div class="ticket-card" data-id="9">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart9.png" alt="Bilet">
+                                <div class="ticket-desc">Senin Çizeceğin Rota 🧭</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 10 -->
+                    <div class="ticket-card" data-id="10">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart10.png" alt="Bilet">
+                                <div class="ticket-desc">Huzurlu Dinlenme Saati 🕯️</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 11 -->
+                    <div class="ticket-card" data-id="11">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart11.png" alt="Bilet">
+                                <div class="ticket-desc">İlk Sabah Kahvaltısı 🥐</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kart 12 -->
+                    <div class="ticket-card" data-id="12">
+                        <div class="ticket-inner">
+                            <div class="ticket-front"><img src="kart-arka.png" alt="Kapalı Kart"></div>
+                            <div class="ticket-back">
+                                <img src="kart12.png" alt="Bilet">
+                                <div class="ticket-desc">İlk Kavuşma Sarılması ✈️</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Büyük Sürpriz Modal Yapısı -->
+        <div class="big-gift-modal" id="bigGiftModal">
+            <div class="big-gift-content">
+                <div class="big-gift-title">🎉 Aslında Tüm Kartlar Senin! 🎉</div>
+                <div class="big-gift-text">Mesafeler bizim her şeyimizden sadece 5 tane seçmemizi isteyebilir sevgilim... Ama benim kalbimde senin tüm bu biletleri sınırsızca kullanma hakkın var. Sen aslında hepsini kazandın! ❤️</div>
+                <button class="audio-btn" id="closeBigGiftModal" style="margin-top: 0;">Sözleri Kabul Et ve Hepsini Gör ❤️</button>
+            </div>
+        </div>
+
+        <!-- Bilet Detaylarını Gösteren Yeni Romantik Modal Yapısı -->
+        <div class="ticket-detail-modal" id="ticketDetailModal">
+            <div class="ticket-detail-content">
+                <img src="" id="detailModalImg" class="ticket-detail-img" alt="Bilet Görseli">
+                <div class="ticket-detail-title" id="detailModalTitle">Bilet Adı</div>
+                <div class="ticket-detail-text" id="detailModalText">Duygusal ve romantik açıklama alanı.</div>
+                <button class="audio-btn" id="closeDetailModal" style="margin-top: 10px; width: 100%;">Geri Dön ❤️</button>
+            </div>
+        </div>
 
     </div> 
 
@@ -1087,6 +1483,149 @@
 
         window.addEventListener('load', function () {
             window.scrollTo(0, 0);
+        });
+
+        // ==========================================
+        // GELECEK BİLETLERİ OYUN MOTORU JS KODLARI
+        // ==========================================
+        let selectedTicketsCount = 0;
+        const maxAllowedTickets = 5;
+        const clickedCardIds = new Set();
+        let isGameFinished = false;
+
+        const ticketsCounter = document.getElementById('ticketsCounter');
+        const bigGiftModal = document.getElementById('bigGiftModal');
+        const closeBigGiftModal = document.getElementById('closeBigGiftModal');
+
+        // DETAY MODAL ELEMANLARI
+        const ticketDetailModal = document.getElementById('ticketDetailModal');
+        const detailModalImg = document.getElementById('detailModalImg');
+        const detailModalTitle = document.getElementById('detailModalTitle');
+        const detailModalText = document.getElementById('detailModalText');
+        const closeDetailModal = document.getElementById('closeDetailModal');
+
+        // HER BİR KARTIN ROMANTİK VE DUYGUSAL DETAY AÇIKLAMALARI
+        const ticketDescriptions = {
+            "1": {
+                title: "İlk Alışveriş Arabası Yarışı 🛒",
+                text: "Aynı evi paylaşacağımız, aynı mutfağa sabahın bir vakti uykulu gözlerle gireceğimiz o güzel günlerin ilk tatlı provası bu sevgilim... Bir süpermarkete gidip reyonlar arasında çocuk gibi koşacağımız, sepeti tamamen sevdiğimiz şeylerle dolduracağımız o neşeli pazar günü için bu bilet."
+            },
+            "2": {
+                title: "Benim Gözümden Sen Albümü 📸",
+                text: "Sen dünyadaki her şeyden daha zarif ve büyüleyicisin sevgilim. Bu bilet sana, benim gözümdeki o eşsiz güzelliğini belgeleme sözümdür. Gün boyu gülerken, saçların rüzgarda savrulurken ya da dalıp gitmişken çekeceğim en doğal hallerinden oluşan, sadece bana özel bir albüm hazırlayacağım senin için."
+            },
+            "3": {
+                title: "Gecenin Bir Yarısı Tatlı Krizi Kaçamağı 🍓",
+                text: "Saat kaç olursa olsun, sen 'canım tatlı çekiyor sevgilim' dediğin an yataktan fırlayıp en yakın açık tatlıcıyı bulmak için sokaklara döküleceğiz. Gece serinliğinde, sıcak bir waffle'ı paylaşırken göz göze geleceğimiz o tatlı anın garantisi bu bilet."
+            },
+            "4": {
+                title: "İlk Keşfedeceğimiz Şehir 🗺️",
+                text: "Yabancı sokaklarda, haritaya bile bakmadan el ele kaybolacağımız ilk seyahatimiz sevgilim... Sırt çantalarımızı takıp, sadece birbirimizin sesini duyarak yeni bir şehri ilk kez adımlayacağımız, ömrümüz boyunca unutamayacağımız o masalsı yolculuğun ilk bileti."
+            },
+            "5": {
+                title: "Sonsuz Kahve & Derin Sohbet ☕",
+                text: "Dışarıda yağmur yağarken sıcak bir kahveci köşesinde, saatlerin nasıl geçtiğini anlamadan, aramızdaki tüm o ekranları ve mesafeleri unutup sadece senin sesine sığınacağım bir an... Gözlerinin içine bakarak ruhumun en derinlerini sana anlatma hakkı."
+            },
+            "6": {
+                title: "Sinema Gecesi Kumandası Sende 🍿",
+                text: "Mısırları ve içecekleri benim hazırladığım, senin ise en sevdiğin filmi seçip arkana yaslandığın huzurlu bir ev sineması gecesi... Film ne olursa olsun, benim gözümün sadece senin o güzel yüzünde kalacağı sakin bir akşam."
+            },
+            "7": {
+                title: "Küsme / Şımarma İksiri 🧪",
+                text: "Aramızda ne geçerse geçsin, canın ne zaman şımartılmak veya haklı olmak isterse bu bileti bana gösteriyorsun sevgilim. Ben anında tüm argümanlarımı unutup seni sevgimle ve tatlı sözlerimle sarmalamaya, seni dünyanın en mutlu insanı yapmaya söz veriyorum."
+            },
+            "8": {
+                title: "En Sevdiğin Tatlıyı Ellerimle Yapma Sözü 🧁",
+                text: "En sevdiğin tatlıyı tamamen senin tarifinle ve senin için mutfağa girerek ellerimle hazırlama sözüm. Belki üstüm biraz un olacak, belki şekli kusursuz olmayacak ama içinde sana olan aşkımın en saf lezzeti saklı kalacak sevgilim."
+            },
+            "9": {
+                title: "Senin Çizeceğin Rota Gezisi 🧭",
+                text: "Sabah uyandığımız andan gece başımızı yastığa koyana kadar rotayı tamamen senin çizdiğin bir gün... 'Şuraya gidelim sevgilim' dediğin her adımda senin arkandan hayranlıkla yürüyeceğim, tamamen senin isteklerine adanmış özel bir macera."
+            },
+            "10": {
+                title: "Huzurlu Dinlenme Saati 🕯️",
+                text: "Yorucu bir günün ardından, mumların yumuşak ışığında ve huzurlu bir müzik eşliğinde arkana yaslanıp sadece dinleneceğin bir rahatlama saati. Sana sıcak bir bitki çayı hazırlayıp tüm günün yorgunluğunu unutturma sözüm."
+            },
+            "11": {
+                title: "Göz Göze İlk Sabah Kahvaltısı 🥐",
+                text: "Aramızdaki tüm saat farklarını, telefon ekranlarını ve mesafeleri çöpe atıp, pazar sabahı aynı masada karşılıklı oturarak yapacağımız o ilk gerçek kahvaltı... Sana taze kruvasanlar ve sıcak bir çay eşliğinde 'Günaydın eşim' diyebilmenin ilk biletidir."
+            },
+            "12": {
+                title: "İlk Kavuşma Sarılması ✈️",
+                text: "Havalimanında veya bir istasyonda, seni gördüğüm o ilk salisede bavulları yere bırakıp her şeyi unutarak sımsıkı sarılma hakkı... Kalbimin ritmini göğsünde hissedeceğin, zamanı durdurmak isteyeceğim, mesafelerin tamamen bittiği o ilk kutsal an."
+            }
+        };
+
+        // KARTLARA TIKLANMA OLAYI
+        document.querySelectorAll('.ticket-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (!isAudioUnlocked) return;
+                
+                const cardId = this.getAttribute('data-id');
+
+                // 1. Durum: Eğer oyun hala devam ediyorsa kartı döndür
+                if (!isGameFinished && !clickedCardIds.has(cardId)) {
+                    if (selectedTicketsCount >= maxAllowedTickets) return;
+
+                    this.classList.add('flipped');
+                    clickedCardIds.add(cardId);
+                    selectedTicketsCount++;
+
+                    let remaining = maxAllowedTickets - selectedTicketsCount;
+                    ticketsCounter.innerText = `Geleceğimizden en çok istediğin 5 bileti seç sevgilim... (Kalan Hak: ${remaining})`;
+
+                    // 5 bilet dolunca büyük sürpriz modalı tetiklenir
+                    if (selectedTicketsCount === maxAllowedTickets) {
+                        isGameFinished = true;
+                        setTimeout(() => {
+                            document.body.classList.add('scroll-locked');
+                            bigGiftModal.classList.add('active');
+                            confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 }, zIndex: 350000 });
+                            setTimeout(() => {
+                                confetti({ particleCount: 150, spread: 120, origin: { y: 0.3 }, zIndex: 350000 });
+                            }, 250);
+                        }, 1000);
+                    }
+                } 
+                // 2. Durum: Eğer oyun bittiyse ve kart zaten açılmışsa (flipped ise) detay penceresini göster
+                else if (this.classList.contains('flipped')) {
+                    const desc = ticketDescriptions[cardId];
+                    if (desc) {
+                        detailModalImg.src = `kart${cardId}.png`;
+                        detailModalTitle.innerText = desc.title;
+                        detailModalText.innerText = desc.text;
+                        
+                        document.body.classList.add('scroll-locked');
+                        ticketDetailModal.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // "Sözleri Kabul Et" Butonuna Basıldığında Kalan Tüm Kartları Aç
+        closeBigGiftModal.addEventListener('click', function() {
+            bigGiftModal.classList.remove('active');
+            document.body.classList.remove('scroll-locked');
+            
+            ticketsCounter.innerText = "✨ Sınırlar ne olursa olsun, tüm biletler senin! Kartların üzerine tıklayarak anlamlarını okuyabilirsin sevgilim... ✨";
+            ticketsCounter.style.color = "#818cf8";
+
+            let delay = 300;
+            document.querySelectorAll('.ticket-card').forEach(card => {
+                if (!card.classList.contains('flipped')) {
+                    setTimeout(() => {
+                        card.classList.add('flipped');
+                    }, delay);
+                    delay += 300;
+                }
+            });
+        });
+
+        // Detay Modalını Kapatma
+        closeDetailModal.addEventListener('click', function(e) {
+            e.stopPropagation();
+            ticketDetailModal.classList.remove('active');
+            document.body.classList.remove('scroll-locked');
         });
 
         window.addEventListener('pageshow', function () {
