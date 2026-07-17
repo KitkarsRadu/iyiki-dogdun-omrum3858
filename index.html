@@ -231,16 +231,18 @@
         .envelope-section .scroll-down-arrow {
             bottom: 15px;
             left: 50%;
-            transform: translateX(-50%);
             display: none; /* Başlangıçta gizli */
+            transform: translateX(-50%) translateY(0);
+            animation: bounceArrowCenter 2s infinite;
         }
         body.envelope-was-closed .envelope-section .scroll-down-arrow {
             display: block !important; /* Mektup kapandıktan sonra belirecek */
         }
 
-        @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0) translateX(-50%); opacity: 0.3; }
-            50% { transform: translateY(10px) translateX(-50%); opacity: 0.9; }
+        /* Merkeze hizalı sallantı animasyonu */
+        @keyframes bounceArrowCenter {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.3; }
+            50% { transform: translateX(-50%) translateY(10px); opacity: 0.9; }
         }
 
         .reveal-box {
@@ -615,22 +617,35 @@
             color: #374151 !important;
         }
         
-        /* 12 Kartı Kusursuz Bir 3'lü Sütun (3x4 Grid) Yapan Tasarım */
+        /* 12 Kartı Kusursuz Bir 4'lü Sütun (4x3 Grid) Yapan Tasarım */
         .tickets-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            max-width: 550px;
+            grid-template-columns: repeat(4, 1fr); /* Yan yana kesin olarak 4 kart */
+            gap: 8px; /* Kartlar arası boşluğu mobilde taşmasın diye biraz daralttık */
+            max-width: 600px; /* PC ekranlarında da estetik durması için limit */
             margin: 0 auto;
             padding: 10px;
         }
 
-        /* 3'lü yerleşim için yüksekliği mükemmel orana çektik */
+        /* 4'lü sıra için kart yüksekliğini daha küçük (130px) yaptık */
         .ticket-card {
             perspective: 1000px;
-            height: 175px; 
+            height: 130px; 
             cursor: pointer;
             position: relative;
+        }
+
+        /* Kartların altındaki yazıların küçük ekranda taşmaması için yazı boyutunu küçülttük */
+        .ticket-desc {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to top, rgba(8, 7, 10, 0.95) 75%, transparent);
+            padding: 4px 2px;
+            font-size: 0.55rem; /* Yazı boyutunu 4'lü grid için optimize ettik */
+            color: #f3f4f6;
+            font-style: italic;
+            font-weight: bold;
+            line-height: 1.2;
         }
 
         .ticket-inner {
@@ -1011,7 +1026,7 @@
            GELECEK BİLETLERİ OYUNU HTML ALANI
            ========================================== */ -->
         <section class="scroll-section" style="min-height: auto; padding: 80px 15px;">
-            <div class="reveal-box" style="max-width: 950px; padding: 40px 15px;">
+            <div class="reveal-box" style="max-width: 600px; padding: 30px 15px;"> <!-- Genişlik 600px'e çekildi -->
                 <h2 class="poem-title" style="margin-bottom: 10px;">🎁 Geleceğimizden Küçük Sözler 🎁</h2>
                 <div class="tickets-counter" id="ticketsCounter">5 Bilet seç ve dileğin zaman kullan sevgilim... (Kalan Hak: 5)</div>
                 
@@ -1340,9 +1355,8 @@
                 envelopeWrapper.classList.remove('open');
                 document.body.classList.remove('envelope-open-active');
                 document.body.classList.remove('scroll-locked');
-                document.body.classList.add('envelope-was-closed'); // Ok işareti tetiklendi
+                document.body.classList.add('envelope-was-closed'); // Kapatılınca oku kesin göster
                 
-                // Mektup müziğini durdur
                 mektupAudio.pause();
                 mektupAudio.currentTime = 0;
                 
@@ -1358,7 +1372,6 @@
                 document.body.classList.add('scroll-locked');
                 document.body.classList.remove('envelope-was-closed');
                 
-                // Mektup müziğini çal
                 mektupAudio.muted = isGlobalMuted;
                 mektupAudio.play().catch(err => console.log("Müzik çalma engellendi:", err));
 
@@ -1372,7 +1385,7 @@
             } else {
                 document.body.classList.remove('envelope-open-active');
                 document.body.classList.remove('scroll-locked');
-                document.body.classList.add('envelope-was-closed'); // Ok işareti tetiklendi
+                document.body.classList.add('envelope-was-closed'); // Normal tıklayıp kapatınca da oku göster
                 
                 mektupAudio.pause();
                 mektupAudio.currentTime = 0;
