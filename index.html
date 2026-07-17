@@ -20,6 +20,7 @@
             color: #f3f4f6;
             font-family: 'Georgia', serif;
             user-select: none;
+            -webkit-user-select: none;
             scroll-behavior: smooth;
             transition: background-color 1s ease, color 1s ease;
             width: 100%;
@@ -32,7 +33,7 @@
             height: 100vh !important;
         }
 
-        /* Mobil taşma sorununu (sola yapışmayı) kökten çözen ana sarmalayıcı */
+        /* Mobil taşma sorununu kökten çözen ana sarmalayıcı */
         .main-wrapper {
             width: 100%;
             overflow-x: hidden;
@@ -105,14 +106,14 @@
             pointer-events: auto;
             background: rgba(14, 12, 18, 0.7);
             border: 1px solid rgba(244, 114, 182, 0.3);
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.90rem;
+            font-size: 0.95rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             transition: all 0.3s ease;
         }
@@ -135,13 +136,13 @@
             z-index: 100000;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Başlangıçtan itibaren sırala ki kaydırılabilsin */
+            justify-content: flex-start;
             align-items: center;
             opacity: 0; pointer-events: none;
             transition: opacity 0.6s ease;
-            padding: 40px 20px; /* Üstten ve alttan güvenli alan bıraktık */
-            overflow-y: auto; /* İçerik sığmazsa sadece bu modal içinde kaydırma yapılabilmesini sağlar */
-            -webkit-overflow-scrolling: touch; /* Mobilde akıcı kaydırma için */
+            padding: 40px 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .shake-modal.active {
             opacity: 1; pointer-events: auto;
@@ -151,8 +152,8 @@
             position: relative;
             width: 100%;
             max-width: 380px;
-            height: 45vh; /* Yüksekliği biraz düşürdük ki butona kesin yer kalsın */
-            min-height: 280px; /* Çok küçük ekranlarda aşırı büzüşmesin */
+            height: 45vh;
+            min-height: 280px;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 0 50px rgba(244, 114, 182, 0.5);
@@ -160,7 +161,7 @@
             transform: scale(0.8);
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             background: transparent;
-            flex-shrink: 0; /* Ekran dikeyde sıkışınca fotoğrafın ezilmesini önler */
+            flex-shrink: 0;
         }
         .shake-modal.active .shake-photo-wrapper {
             transform: scale(1);
@@ -213,7 +214,7 @@
 
         .scroll-down-arrow {
             position: absolute;
-            bottom: -25px; 
+            bottom: 20px; 
             font-size: 2rem;
             background: linear-gradient(45deg, #f472b6, #db2777);
             -webkit-background-clip: text;
@@ -225,9 +226,21 @@
             margin: 0 !important;
             padding: 0 !important;
         }
+        
+        /* Mektuptan biletlere geçiş oku için özel alan */
+        .envelope-section .scroll-down-arrow {
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none; /* Başlangıçta gizli */
+        }
+        body.envelope-was-closed .envelope-section .scroll-down-arrow {
+            display: block !important; /* Mektup kapandıktan sonra belirecek */
+        }
+
         @keyframes bounceArrow {
-            0%, 100% { transform: translateY(0); opacity: 0.3; }
-            50% { transform: translateY(10px); opacity: 0.9; }
+            0%, 100% { transform: translateY(0) translateX(-50%); opacity: 0.3; }
+            50% { transform: translateY(10px) translateX(-50%); opacity: 0.9; }
         }
 
         .reveal-box {
@@ -431,10 +444,8 @@
             border: 1px solid rgba(244, 114, 182, 0.2);
             -ms-overflow-style: none;  
             scrollbar-width: none;  
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
+            -webkit-user-select: none;
         }
         .letter-content::-webkit-scrollbar { display: none; }
         
@@ -450,7 +461,7 @@
         .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); z-index: 2; transition: transform 0.5s ease; }
         .envelope-wrapper.open .seal-heart { transform: scale(0); opacity: 0; transition: all 0.3s ease; }
         
-        /* Mektubun dikey konumu ve yüksekliği alt butona alan kalacak şekilde optimize edildi */
+        /* Mektubun dikey konumu ve yüksekliği */
         .envelope-wrapper.open .letter-content {
             opacity: 1;
             width: 90vw;
@@ -464,14 +475,14 @@
             padding: 35px 25px;
         }
 
-        /* MEKTUP KAPAT BUTONU (Mükemmelleştirilmiş ve konumlandırılmış son tasarım) */
+        /* MEKTUP KAPAT BUTONU */
         .letter-close-btn {
             display: none;
             position: fixed;
-            bottom: 2.5vh;        /* Ekranın en altına, mektup kutusundan uzağa yerleştirildi */
+            bottom: 4vh;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 100005;     /* Mektup maskesinin tam önünde kalması garantilendi */
+            z-index: 100005;
             text-align: center;
             color: #f472b6;
             font-weight: bold;
@@ -483,13 +494,11 @@
             background: rgba(14, 12, 18, 0.98);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: background 0.8s ease, color 0.8s ease, border-color 0.8s ease;
-            
-            white-space: nowrap; /* Yazının kırılıp aşağı kaymasını kesin olarak engeller */
+            white-space: nowrap;
             width: auto;
             min-width: 200px;
-            
-            -webkit-user-select: none;
             user-select: none;
+            -webkit-user-select: none;
             -webkit-tap-highlight-color: transparent;
             cursor: pointer;
         }
@@ -501,6 +510,7 @@
         .hidden-text-group {
             opacity: 0 !important;
             transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         @media (max-width:768px){
@@ -521,14 +531,14 @@
         }
 
         .tickets-counter {
-            font-size: clamp(0.95rem, 3vw, 1.2rem); /* Mobilde taşmayı önleyen dinamik boyut */
+            font-size: clamp(0.95rem, 3vw, 1.2rem);
             color: #f472b6;
             margin: 0 auto 30px auto;
             font-style: italic;
             font-weight: bold;
             text-shadow: 0 0 8px rgba(244, 114, 182, 0.3);
             transition: all 0.5s ease;
-            max-width: 90%; /* Taşmayı önler */
+            max-width: 90%;
             word-wrap: break-word;
         }
 
@@ -604,12 +614,13 @@
         body.light-emotion-mode .ticket-detail-text {
             color: #374151 !important;
         }
+        
         /* 12 Kartı Kusursuz Bir 3'lü Sütun (3x4 Grid) Yapan Tasarım */
         .tickets-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Kesin olarak yan yana 3 kart */
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            max-width: 550px; /* PC'de kartların çok yayılıp büyümesini engeller */
+            max-width: 550px;
             margin: 0 auto;
             padding: 10px;
         }
@@ -687,19 +698,6 @@
             font-style: italic;
             font-weight: bold;
             line-height: 1.3;
-        }
-
-        .ticket-quantity {
-            position: absolute;
-            top: 6px; right: 6px;
-            background: rgba(219, 39, 119, 0.85);
-            color: white;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 3;
-            letter-spacing: 0.5px;
         }
 
         /* BÜYÜK SÜRPRİZ MODALI (5 Tane Seçilince Açılan Kutu) */
@@ -964,7 +962,7 @@
         </section>
 
         <!-- GİZEMLİ MEKTUP BÖLÜMÜ -->
-        <section class="scroll-section">
+        <section class="scroll-section envelope-section">
             <div class="reveal-box">
                 <h2 class="poem-title" style="margin-bottom: 30px;">Kalbimin Derinliklerinden Gelen Ses...</h2>
                 
@@ -997,21 +995,25 @@
                             Aşkındır içimde hiç sönmeden yanan.
                             Mezara kadar sürsün bu kutsal bağımız,
                             İyi ki doğdun eşim, kutlu olsun yaşımız... 🥂🎉
-                            
                         </div>
                     </div>
                 </div>
                 <div id="hintText1" style="font-size: 0.9rem; color: #f472b6; font-style: italic; margin-top: 15px; letter-spacing: 1px;">Kalbinin sesini dinle ve kalbime dokun... ❤️</div>
-                <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8;">📱 Telefonu salla (veya PC'de S tuşuna bas) mucizeyi gör! ✨</div>
+                
+                <!-- Güncellenen ve tıklanabilir yapılan sürpriz yazı alanı -->
+                <div id="hintText2" style="font-size: 0.75rem; color: #818cf8; font-style: italic; margin-top: 8px; opacity: 0.8; cursor: pointer; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;">📱 Telefonu salla, S tuşuna bas veya <strong style="color: #fbcfe8; text-decoration: underline;">buraya tıkla</strong> mucizeyi gör! ✨</div>
             </div>
+            <!-- Biletlere geçiş için aşağı ok işareti -->
+            <div class="scroll-down-arrow">↓</div>
         </section>
+
         <!-- ==========================================
            GELECEK BİLETLERİ OYUNU HTML ALANI
-           ========================================== -->
+           ========================================== */ -->
         <section class="scroll-section" style="min-height: auto; padding: 80px 15px;">
             <div class="reveal-box" style="max-width: 950px; padding: 40px 15px;">
                 <h2 class="poem-title" style="margin-bottom: 10px;">🎁 Geleceğimizden Küçük Sözler 🎁</h2>
-                <div class="tickets-counter" id="ticketsCounter">Lütfen en çok istediğin 5 bileti seç sevgilim... (Kalan Hak: 5)</div>
+                <div class="tickets-counter" id="ticketsCounter">5 Bilet seç ve dileğin zaman kullan sevgilim... (Kalan Hak: 5)</div>
                 
                 <div class="tickets-grid">
                     <!-- Kart 1 -->
@@ -1293,7 +1295,14 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal-box').forEach(box => observer.observe(box));
+        document.querySelectorAll('.reveal-box').forEach(box => {
+            // Sadece video bölümlerini veya bilet bölümünü izle, kapalı mektubu izleme ki kaydırma tetiklenmesin
+            if (!box.parentNode.classList.contains('envelope-section')) {
+                observer.observe(box);
+            } else {
+                box.classList.add('active'); // Mektup statik olarak görünür kalsın
+            }
+        });
 
         function triggerVideoConfetti() {
             clearInterval(confettiInterval);
@@ -1313,7 +1322,7 @@
             });
         });
 
-        // MEKTUP KONTROL MOTORU (Kilitli ve Müzikli Yapı)
+        // MEKTUP KONTROL MOTORU
         const envelopeWrapper = document.getElementById('envelopeWrapper');
         const pcTriggerSeal = document.getElementById('pcTriggerSeal');
         const letterCloseBtn = document.getElementById('letterCloseBtn');
@@ -1323,14 +1332,15 @@
         pcTriggerSeal.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            envelopeWrapper.click();
+            toggleEnvelope();
         });
 
         function toggleEnvelope(forceClose = false) {
             if (forceClose) {
                 envelopeWrapper.classList.remove('open');
                 document.body.classList.remove('envelope-open-active');
-                document.body.classList.remove('scroll-locked'); // KİLİT AÇILDI
+                document.body.classList.remove('scroll-locked');
+                document.body.classList.add('envelope-was-closed'); // Ok işareti tetiklendi
                 
                 // Mektup müziğini durdur
                 mektupAudio.pause();
@@ -1345,7 +1355,8 @@
 
             if (envelopeWrapper.classList.contains('open')) {
                 document.body.classList.add('envelope-open-active');
-                document.body.classList.add('scroll-locked'); // ARKA PLAN DONDURULDU
+                document.body.classList.add('scroll-locked');
+                document.body.classList.remove('envelope-was-closed');
                 
                 // Mektup müziğini çal
                 mektupAudio.muted = isGlobalMuted;
@@ -1360,7 +1371,8 @@
                 setTimeout(() => { confetti({ particleCount: 100, spread: 120, origin: { y: 0.2 }, colors: ['#fbcfe8', '#ffd700', '#ffffff'], zIndex: 300000 }); }, 200);
             } else {
                 document.body.classList.remove('envelope-open-active');
-                document.body.classList.remove('scroll-locked'); // KİLİT AÇILDI
+                document.body.classList.remove('scroll-locked');
+                document.body.classList.add('envelope-was-closed'); // Ok işareti tetiklendi
                 
                 mektupAudio.pause();
                 mektupAudio.currentTime = 0;
@@ -1373,7 +1385,6 @@
         envelopeWrapper.addEventListener('click', function(e) {
             if (!isAudioUnlocked) return;
             if (e.target.closest('.letter-content')) return;
-
             toggleEnvelope();
         });
 
@@ -1383,7 +1394,7 @@
             toggleEnvelope(true);
         });
 
-        // SALLAMA SİSTEMİ (Kilitli ve Müzikli Yapı)
+        // SALLAMA VE TIKLAMA SİSTEMİ (Sürpriz Fotoğraf Açma)
         let lastX = null, lastY = null, lastZ = null;
         let shakeThreshold = 18; 
         let isShakeTriggered = false;
@@ -1394,7 +1405,7 @@
             isShakeTriggered = true;
             
             shakeModal.classList.add('active');
-            document.body.classList.add('scroll-locked'); // ARKA PLAN DONDURULDU
+            document.body.classList.add('scroll-locked');
 
             // Fotoğraf müziğini çal
             fotoAudio.muted = isGlobalMuted;
@@ -1448,6 +1459,12 @@
             }());
         }
 
+        // Tıklama tetiği entegrasyonu
+        hintText2.addEventListener('click', function(e) {
+            e.stopPropagation();
+            triggerSuperShakeSürpriz();
+        });
+
         window.addEventListener('devicemotion', function(event) {
             let acceleration = event.accelerationIncludingGravity;
             if(!acceleration) return;
@@ -1470,7 +1487,10 @@
         document.getElementById('closeShakeModal').addEventListener('click', function(e) {
             e.stopPropagation();
             shakeModal.classList.remove('active');
-            document.body.classList.remove('scroll-locked'); // KİLİT AÇILDI
+            document.body.classList.remove('scroll-locked');
+            
+            // Mektup kapandıysa ok işaretini burada da görünür kılalım
+            document.body.classList.add('envelope-was-closed');
             
             // Fotoğraf müziğini durdur
             fotoAudio.pause();
@@ -1520,7 +1540,7 @@
             },
             "4": {
                 title: "İlk Keşfedeceğimiz Şehir 🗺️",
-                text: "Yabancı sokaklarda, haritaya bile bakmadan el ele kaybolacağımız ilk seyahatimiz sevgilim... Sırt çantalarımızı takıp, sadece birbirimizin sesini duyarak yeni bir şehri ilk kez adımlayacağımız, ömrümüz boyunca unutamayacağımız o masalsı yolculuğun ilk bileti."
+                text: "Yabancı sokaklarda, haritaya bile bakmadan el ele kaybolacağımız ilk seyahatimiz sevgilim... Sırt çantalarimizi takıp, sadece birbirimizin sesini duyarak yeni bir şehri ilk kez adımlayacağımız, ömrümüz boyunca unutamayacağımız o masalsı yolculuğun ilk bileti."
             },
             "5": {
                 title: "Sonsuz Kahve & Derin Sohbet ☕",
@@ -1607,7 +1627,7 @@
             bigGiftModal.classList.remove('active');
             document.body.classList.remove('scroll-locked');
             
-            ticketsCounter.innerText = "✨ Sınırlar ne olursa olsun, tüm biletler senin! Kartların üzerine tıklayarak anlamlarını okuyabilirsin sevgilim... ✨";
+            ticketsCounter.innerText = "✨ Sınırlar ne olursa olsun, tüm biletler senin! Kartların üzerine tıklayarak anlamlarını okuyabilirsin sevgilim. Dileğin zaman bu kartları bana karşı kullanabilirsin. .. ✨";
             ticketsCounter.style.color = "#818cf8";
 
             let delay = 300;
