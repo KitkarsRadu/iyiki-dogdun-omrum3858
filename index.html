@@ -27,16 +27,17 @@
             min-height: 100vh;
         }
 
-        /* Başlangıçta ve Modal/Mektup açıkken dikey kaydırmayı tamamen donduran sınıf */
+        /* Başlangıçta ve Modal/Mektup açıkken tüm ana sayfa kaydırmasını kesin olarak kilitler */
         body.scroll-locked {
             overflow: hidden !important;
             height: 100vh !important;
         }
-        /* Sayfa ilk açıldığında butonun rahat görünmesi için esnek dikey kaydırma */
-        body.init-locked {
-            overflow-x: hidden !important;
+
+        /* Sihirli Dokunuş: Kilit aktifken SADECE İLK sayfanın kendi içinde (butonu kurtaracak kadar) kaymasına izin verir, videolara geçilmez */
+        body.scroll-locked .scroll-section:first-of-type {
+            height: 100vh !important;
             overflow-y: auto !important;
-            height: auto !important;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Mobil taşma sorununu kökten çözen ana sarmalayıcı */
@@ -805,7 +806,7 @@
         <div class="romantic-ribbon" style="top: 580vh; left: -10%; transform: rotate(6deg);"></div>
 
         <!-- GİRİŞ EKRANI -->
-        <section class="scroll-section">
+        <section class="scroll-section" style="padding-bottom: 140px;"> <!-- Butonun rahatça kayıp görünmesi için alt boşluk -->
             <div class="reveal-box active">
                 <h1 class="poem-title">Ömrümün En Güzel Hikayesine...</h1>
                 <p class="poem-text">Aramızdaki kilometreler saatleri değiştirse de kalbimin atış hızı hiç değişmiyor sevgilim. Farklı zaman dilimlerinde olsak da benim saatim hep seni gösteriyor. Sen kendi takviminde yeni güne uyanmadan önce, ben senin yeni yaşını Türkiye saatiyle, zamanı senin için önden başlatarak kutluyorum. Seninle geçen her an bir lütuf...</p>
@@ -1275,7 +1276,10 @@
         // Sürpriz Başlatma Butonu
         document.getElementById('startBtn').addEventListener('click', function() {
             isAudioUnlocked = true;
-            document.body.classList.remove('scroll-locked');
+            
+            // Butona basıldığı an tüm sayfanın ve sonraki videoların kilidini açıyoruz
+            document.body.classList.remove('scroll-locked'); 
+            
             this.style.display = 'none';
             document.getElementById('first-video-section').scrollIntoView({ behavior: 'smooth' });
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
