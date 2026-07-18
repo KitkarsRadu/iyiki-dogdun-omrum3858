@@ -32,6 +32,12 @@
             overflow: hidden !important;
             height: 100vh !important;
         }
+        /* Sayfa ilk açıldığında butonun rahat görünmesi için esnek dikey kaydırma */
+        body.init-locked {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            height: auto !important;
+        }
 
         /* Mobil taşma sorununu kökten çözen ana sarmalayıcı */
         .main-wrapper {
